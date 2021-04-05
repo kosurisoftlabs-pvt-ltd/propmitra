@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="includes/header :: head"></head>
+  <style>
+    .alert {
+      padding: 8px 4px;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+  <body>
+    <div class="page-wrapper">
+      <div th:replace="includes/navbar :: navbar"></div>
+      <div class="main-wrapper">
+        <div class="main">
+          <div class="main-inner">
+            <div style="height: 80px;"></div>
+            <div class="row">
+              <div class="col-md-3"></div>
+              <div class="col-md-6 col-xs-12">
+                <div th:if="${status == 'success'}" class="alert msg-alert alert-success text-center " style="font-size: 14px;">
+                  <strong>Thank you!</strong> We have received your request and
+                  sent the password reset instructions to your registered email address.
+                </div>
+                <div th:if="${status == 'mail-error'}" class="alert msg-alert alert-danger text-center " style="font-size: 14px;">
+                  <strong>Alert!</strong> unable to send password reset link to provided email address.
+                  Please contact our support team for further assistance.
+                </div>
+                <div th:if="${status == 'not-exist'}" class="alert msg-alert alert-danger text-center " style="font-size: 14px;">
+                  <strong>Error!</strong> Provided email address does not exist with us. Please enter your registered email address or
+                  contact our support team for further assistance.
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4"></div>
+              <div class="col-md-4 col-xs-12">
+                <div class="card " >
+                  <div class="card-inner">
+                    <div class="card-attribute" style="color: #00ad79; border-bottom: 1px solid #b2b2b2; font-size: 14px;">
+                      <i class="fa fa-lock fa-lg"></i>
+                      Forgot Password
+                    </div>
+                    <div class="card-content" style="top: 25%;">
+                      <form id="forgotpwd-form" action="/forgotpwd" method="post">
+                        <div class="form-group">
+                          <label for="email">Email address</label>
+                          <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+                          <small id="emailHelp" class="form-text text-muted">Please enter your registered email address.</small>
+                        </div>
+                        <div class="form-group-btn">
+                          <button type="submit" id="bth-forgotpwd" class="btn btn-primary float-right">Submit</button>
+                        </div>
+                      </form>
+                    </div>
+                    <!-- /.card-content -->
+                  </div>
+                  <!-- /.card-inner -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.main-inner -->
+        </div>
+        <!-- /.main -->
+      </div>
+      <!-- /.main-wrapper -->
+      <div style="" th:replace="includes/footer :: footer"></div>
+    </div>
+    <script th:inline="javascript">
+      $(document).ready(function () {
+        setTimeout(function() {
+          $('.alert').fadeOut('fast');
+        }, 5000);
+        $('#forgotpwd-form').validate({ // initialize the plugin
+          rules: {
+              email: {
+                  required: true,
+                  email: true
+              }
+            },
+            submitHandler: function (form) {
+              $("body").addClass("loading");
+              $('#forgotpwd-form').submit();
+            }
+        });
+
+      });
+    </script>
+    <!-- /.page-wrapper -->
+    <div class="modal"></div>
+  </body>
+</html>

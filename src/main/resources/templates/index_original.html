@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="includes/header :: head"></head>
+<style>
+    .error {
+      color: red;
+    }
+
+    .gallery-item {
+        height: 370px;
+    }
+    .ui-widget-header {
+        background: #323232;
+    }
+
+</style>
+<body>
+<div class="page-wrapper">
+    <div th:replace="includes/navbar :: navbar"></div>
+    <div class="gallery">
+        <div class="gallery-item" style="background-image: url(images/banner-bg.jpg);">
+        </div>
+        <!-- /.gallery-item -->
+        <div class="gallery-item" style="background-image: url(images/banner-bg2.jpg);">
+        </div>
+        <!-- /.gallery-item -->
+        <div class="gallery-item" style="background-image: url(images/banner-bg3.jpg);">
+        </div>
+        <!-- /.gallery-item -->
+    </div>
+    <!-- /.gallery -->
+    <div class="map-wrapper mb80">
+        <div class="map-filter-horizontal-wrapper">
+            <div class="container">
+                <div class="map-filter-horizontal">
+                    <form th:action="@{/properties}" id="searchForm">
+                        <input type="hidden" name="minPrice" id="minPrice"/>
+                        <input type="hidden" name="maxPrice" id="maxPrice"/>
+                        <div class="row">
+                            <div class="col-sm-4 form-group">
+                                <select class="form-control form-control-no-border" name="rentOrSale" id="rentOrSale">
+                                    <option value=""> -- Select Type --</option>
+                                    <option th:value="Sale" selected="selected">Buy</option>
+                                    <option th:value="Rent">Rent</option>
+                                </select>
+                            </div>
+                            <!-- /.form-group -->
+                            <div class="col-sm-4 form-group">
+                                <select class="form-control form-control-no-border" name="location" id="location">
+                                    <option value="" selected="selected"> -- Select City --</option>
+                                    <option th:each="loc : ${meta.locations}" th:value="${loc}"
+                                            th:text="${loc}">
+                                    </option>
+                                </select>
+                            </div>
+                            <!-- /.form-group -->
+                            <div class="col-sm-4 form-group">
+                                <select class="form-control form-control-no-border" name="propType" id="propType">
+                                    <option value="" selected="selected"> -- Property Type --</option>
+                                    <option th:each="ptype : ${meta.propTypes}" th:value="${ptype}"
+                                            th:text="${ptype}">
+                                    </option>
+                                </select>
+                            </div>
+                            <!-- /.form-group -->
+                            <div class="col-sm-4 form-group">
+                                <select class="form-control form-control-no-border" name="propStatus" id="propStatus">
+                                    <option value="" selected="selected"> -- Property Status --</option>
+                                    <option th:each="pstatus : ${meta.propStatuses}" th:value="${pstatus}"
+                                            th:text="${pstatus}">
+                                    </option>
+                                </select>
+                            </div>
+                            <!-- /.form-group -->
+                            <div class="col-sm-4 form-group">
+                                <!--div id="slider" class="price-slider"></div-->
+                                <input type="text" id="amount" readonly
+                                       style="border: 0;color: #fff;margin-bottom: 0px;text-align: center;font-weight: 600;background: none;">
+                                <!--div id="slider-range"></div-->
+                                <div id="slider" style="border: 1px solid #e5e5e5;"></div>
+                                <!--label for="" style="color: #ffffff;">Price Range</label-->
+                            </div>
+                            <!-- /.form-group -->
+                            <div class="col-sm-4">
+                                <button type="submit" class="btn btn-block">Filter Listings</button>
+                            </div>
+                            <!-- /.col-->
+                        </div>
+                        <!-- /.row -->
+                    </form>
+                </div>
+                <!-- /.map-filter -->
+            </div>
+            <!-- /.container -->
+        </div>
+    </div>
+    <!-- /.map-wrapper -->
+    <div class="main-wrapper">
+        <div class="main">
+            <div class="main-inner">
+                <div class="container">
+                    <div class="content">
+                        <div class="listing-tabs mt-80">
+                            <div class="listing-tabs-header">
+                                <h2>Search for the <strong>best properties</strong></h2>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#tab-all" data-toggle="tab">All Properties</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#tab-rent" data-toggle="tab">For Rent</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#tab-sale" data-toggle="tab">For Sale</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- /.listing-tabs-headser -->
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tab-all" role="tabpanel">
+                                    <div class="listing-boxes">
+                                        <div class="row" th:if="${results != null and results.isEmpty()}">
+                                            <div class="col-md-2"></div>
+                                            <div class="col-md-8 col-xs-12">
+                                                <div class="alert msg-alert alert-default text-center " style="font-size: 14px;">
+                                                    No properties found. Please come back after sometime.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" th:if="${results != null and !results.isEmpty()}">
+                                            <!--<div class="col-md-12 col-lg-12 col-xs-12">
+                                                <span th:text="${#lists.size(results)}"></span> properties found.
+                                            </div>-->
+                                            <div class="col-md-6 col-lg-3" th:each="prop,itr: ${results}">
+                                                <div class="listing-box" th:if="${itr.index} == 11">
+                                                    <div class="promo-box" style="height: 390px;">
+                                                        <div class="promo-box-inner">
+                                                            <h2>Do you want to view more?</h2>
+                                                            <p>
+                                                                Check out all <span th:text="${itr.size}"></span> properties
+                                                            </p>
+                                                            <a th:href="@{'/properties?rentOrSale=ALL'}" class="btn btn-primary">Check out more</a>
+                                                        </div>
+                                                        <!-- /.promo-box-inner -->
+                                                        <div class="promo-box-image"></div>
+                                                        <!-- /.promo-box-image -->
+                                                    </div>
+                                                    <!-- /.promo-box -->
+                                                </div>
+                                                <div class="listing-box" th:if="${itr.index} < 11">
+                                                    <div class="listing-box-inner">
+                                                        <a th:href="@{'/property-info/'+${prop.propId}}" class="listing-box-image">
+                                                                    <span th:if="${prop.propertyBasic.frontImage}"
+                                                                          class="listing-box-image-content" th:style="'background-image:url(data:'
+                                                                    + ${prop.propertyBasic.frontImage.fileType} + ';base64,' + ${prop.propertyBasic.frontImage.base64Image} + ');'"></span>
+                                                            <span th:unless="${prop.propertyBasic.frontImage}"
+                                                                  class="listing-box-image-content"
+                                                                  th:style="'background-image:url(/img/tmp/default-property.jpg);'"></span>
+                                                            <span class="listing-box-category tag" th:text="${prop.propertyBasic.propType}"></span>
+                                                            <!--span class="listing-box-rating">
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star-o"></i>
+                                                              </span-->
+                                                        </a><!-- /.listing-box-image -->
+                                                        <div class="listing-box-content">
+                                                            <h2><a th:href="@{'/property-info/'+${prop.propId}}" th:text="${prop.propertyBasic.projectName}"></a>
+                                                            </h2>
+                                                            <h3 th:text="${prop.propertyBasic.propLocation}"></h3>
+                                                            <div class="actions">
+                                                                <!--div class="actions-button">
+                                                                    <span></span>
+                                                                    <span></span>
+                                                                    <span></span>
+                                                                </div-->
+                                                                <!-- /.actions-button -->
+                                                                <!--ul class="actions-list">
+                                                                    <li><a href="#">Add to compare</a></li>
+                                                                    <li><a href="#">Add to favorites</a></li>
+                                                                    <li><a href="#">Report listing</a></li>
+                                                                </ul-->
+                                                                <!-- /.actions-list -->
+                                                            </div>
+                                                            <!-- /.actions -->
+                                                        </div>
+                                                        <!-- /.listing-box-content -->
+                                                        <div class="listing-box-attributes">
+                                                            <dl>
+                                                                <dt><i class="fa fa-bed"></i>&nbsp;No. of Bed Rooms</dt>
+                                                                <dd th:text="${prop.noBeds}"></dd>
+                                                                <dt><i class="fa fa-building"></i>&nbsp;Floors</dt>
+                                                                <dd th:if="${prop.floorNo} != null and ${prop.noFloors} != null">
+                                                                    <span th:text="${prop.floorNo} + ' of ' + ${prop.noFloors}"></span>
+                                                                </dd>
+                                                                <dt><i class="fa fa-inr"></i>&nbsp;Price</dt>
+                                                                <dd th:if="${prop.priceSft} != null and ${prop.propertyBasic.rentSale} == 'Sale'">
+                                                                    <span th:text="${#numbers.formatDecimal(prop.priceSft, 1, 0)}"></span>&nbsp;/ sqft.
+                                                                </dd>
+                                                                <dd th:if="${prop.propertyBasic} != null and ${prop.propertyBasic.rentAmount} != null
+                                                                    and ${prop.propertyBasic.rentSale} == 'Rent'">
+                                                                    <span th:text="${#numbers.formatDecimal(prop.propertyBasic.rentAmount, 1, 0)}"></span>&nbsp;/ mo.
+                                                                </dd>
+                                                                <dt><i class="fa fa-arrows"></i>&nbsp;Area</dt>
+                                                                <dd th:if="${prop.areaSft} != null">
+                                                                    <span th:text="${#numbers.formatDecimal(prop.areaSft, 1, 0)}"></span>&nbsp;sqft
+                                                                </dd>
+                                                            </dl>
+                                                        </div>
+                                                        <!-- /.listing-box-attributes -->
+                                                        <!--<div class="listing-box-attributes-icons">
+                                                            <ul>
+                                                                <li th:if="${prop.areaSft} != null">
+                                                                    <i class="fa fa-arrows"></i>
+                                                                    <span th:text="${#numbers.formatDecimal(prop.areaSft, 1, 0)}"></span>&nbsp;sqft
+                                                                </li>
+                                                                <li><i class="fa fa-shower"></i> <span>2</span></li>
+                                                                <li><i class="fa fa-car"></i> <span>1</span></li>
+                                                            </ul>
+                                                        </div>-->
+                                                        <!-- /.listing-box-attributes -->
+                                                    </div>
+                                                    <!-- /.listing-box-inner -->
+                                                </div>
+                                                <!-- /.listing-box -->
+                                            </div>
+                                            <!-- /.col-* -->
+                                        </div>
+                                        <!-- /.row -->
+                                    </div>
+                                    <!-- /.listing-boxes -->
+                                </div>
+                                <!-- /.tab-pane -->
+                                <div class="tab-pane" id="tab-rent" role="tabpanel">
+                                    <div class="listing-boxes">
+                                        <div class="row" th:if="${results != null and results.isEmpty()}">
+                                            <div class="col-md-2"></div>
+                                            <div class="col-md-8 col-xs-12">
+                                                <div class="alert msg-alert alert-default text-center " style="font-size: 14px;">
+                                                    No properties found. Please come back after sometime.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" th:if="${results != null and !results.isEmpty()}">
+                                            <!--<div class="col-md-12 col-lg-12 col-xs-12">
+                                                <span th:text="${#lists.size(results)}"></span> properties found.
+                                            </div>-->
+                                            <div class="col-sm-6 col-md-3" th:each="prop: ${results}" th:object="${prop}"
+                                                 th:if="${prop.propertyBasic} != null and ${prop.propertyBasic.rentSale} == 'Rent'">
+                                                <div class="listing-box">
+                                                    <div class="listing-box-inner">
+                                                        <a th:href="@{'/property-info/'+${prop.propId}}" class="listing-box-image">
+                                                                    <span th:if="${prop.propertyBasic.frontImage}"
+                                                                          class="listing-box-image-content" th:style="'background-image:url(data:'
+                                                                    + ${prop.propertyBasic.frontImage.fileType} + ';base64,' + ${prop.propertyBasic.frontImage.base64Image} + ');'"></span>
+                                                            <span th:unless="${prop.propertyBasic.frontImage}"
+                                                                  class="listing-box-image-content"
+                                                                  th:style="'background-image:url(/img/tmp/default-property.jpg);'"></span>
+                                                            <span class="listing-box-category tag" th:text="${prop.propertyBasic.propType}"></span>
+                                                            <!--span class="listing-box-rating">
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star-o"></i>
+                                                              </span-->
+                                                        </a><!-- /.listing-box-image -->
+                                                        <div class="listing-box-content">
+                                                            <h2><a th:href="@{'/property-info/'+${prop.propId}}" th:text="${prop.propertyBasic.projectName}"></a>
+                                                            </h2>
+                                                            <h3 th:text="${prop.propertyBasic.propLocation}"></h3>
+                                                            <div class="actions">
+                                                                <!--div class="actions-button">
+                                                                    <span></span>
+                                                                    <span></span>
+                                                                    <span></span>
+                                                                </div-->
+                                                                <!-- /.actions-button -->
+                                                                <!--ul class="actions-list">
+                                                                    <li><a href="#">Add to compare</a></li>
+                                                                    <li><a href="#">Add to favorites</a></li>
+                                                                    <li><a href="#">Report listing</a></li>
+                                                                </ul-->
+                                                                <!-- /.actions-list -->
+                                                            </div>
+                                                            <!-- /.actions -->
+                                                        </div>
+                                                        <!-- /.listing-box-content -->
+                                                        <div class="listing-box-attributes">
+                                                            <dl>
+                                                                <dt><i class="fa fa-bed"></i>&nbsp;No. of Bed Rooms</dt>
+                                                                <dd th:text="${prop.noBeds}"></dd>
+                                                                <dt><i class="fa fa-building"></i>&nbsp;Floors</dt>
+                                                                <dd th:if="${prop.floorNo} != null and ${prop.noFloors} != null">
+                                                                    <span th:text="${prop.floorNo} + ' of ' + ${prop.noFloors}"></span>
+                                                                </dd>
+                                                                <dt><i class="fa fa-inr"></i>&nbsp;Price</dt>
+                                                                <dd th:if="${prop.priceSft} != null and ${prop.propertyBasic.rentSale} == 'Sale'">
+                                                                    <span th:text="${#numbers.formatDecimal(prop.priceSft, 1, 0)}"></span>&nbsp;/ sqft.
+                                                                </dd>
+                                                                <dd th:if="${prop.propertyBasic} != null and ${prop.propertyBasic.rentAmount} != null
+                                                                    and ${prop.propertyBasic.rentSale} == 'Rent'">
+                                                                    <span th:text="${#numbers.formatDecimal(prop.propertyBasic.rentAmount, 1, 0)}"></span>&nbsp;/ mo.
+                                                                </dd>
+                                                                <dt><i class="fa fa-arrows"></i>&nbsp;Area</dt>
+                                                                <dd th:if="${prop.areaSft} != null">
+                                                                    <span th:text="${#numbers.formatDecimal(prop.areaSft, 1, 0)}"></span>&nbsp;sqft
+                                                                </dd>
+                                                            </dl>
+                                                        </div>
+                                                        <!-- /.listing-box-attributes -->
+                                                        <!--<div class="listing-box-attributes-icons">
+                                                            <ul>
+                                                                <li th:if="${prop.areaSft} != null">
+                                                                    <i class="fa fa-arrows"></i>
+                                                                    <span th:text="${#numbers.formatDecimal(prop.areaSft, 1, 0)}"></span>&nbsp;sqft
+                                                                </li>
+                                                                <li><i class="fa fa-shower"></i> <span>2</span></li>
+                                                                <li><i class="fa fa-car"></i> <span>1</span></li>
+                                                            </ul>
+                                                        </div>-->
+                                                        <!-- /.listing-box-attributes -->
+                                                    </div>
+                                                    <!-- /.listing-box-inner -->
+                                                </div>
+                                                <!-- /.listing-box -->
+                                            </div>
+                                            <!-- /.col-* -->
+                                        </div>
+                                        <!-- /.row -->
+                                    </div>
+                                    <!-- /.listing-boxes -->
+                                </div>
+                                <!-- /.tab-pane -->
+                                <div class="tab-pane" id="tab-sale" role="tabpanel">
+                                    <div class="listing-boxes">
+                                        <div class="row" th:if="${results != null and results.isEmpty()}">
+                                            <div class="col-md-2"></div>
+                                            <div class="col-md-8 col-xs-12">
+                                                <div class="alert msg-alert alert-default text-center " style="font-size: 14px;">
+                                                    No properties found. Please come back after sometime.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" th:if="${results != null and !results.isEmpty()}">
+                                            <!--<div class="col-md-12 col-lg-12 col-xs-12">
+                                                <span th:text="${#lists.size(results)}"></span> properties found.
+                                            </div>-->
+                                            <div class="col-sm-6 col-md-3" th:each="prop: ${results}" th:object="${prop}"
+                                                 th:if="${prop.propertyBasic} != null and ${prop.propertyBasic.rentSale} == 'Sale'">
+                                                <div class="listing-box">
+                                                    <div class="listing-box-inner">
+                                                        <a th:href="@{'/property-info/'+${prop.propId}}" class="listing-box-image">
+                                                                    <span th:if="${prop.propertyBasic.frontImage}"
+                                                                          class="listing-box-image-content" th:style="'background-image:url(data:'
+                                                                    + ${prop.propertyBasic.frontImage.fileType} + ';base64,' + ${prop.propertyBasic.frontImage.base64Image} + ');'"></span>
+                                                            <span th:unless="${prop.propertyBasic.frontImage}"
+                                                                  class="listing-box-image-content"
+                                                                  th:style="'background-image:url(/img/tmp/default-property.jpg);'"></span>
+                                                            <span class="listing-box-category tag" th:text="${prop.propertyBasic.propType}"></span>
+                                                            <!--span class="listing-box-rating">
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star-o"></i>
+                                                              </span-->
+                                                        </a><!-- /.listing-box-image -->
+                                                        <div class="listing-box-content">
+                                                            <h2><a th:href="@{'/property-info/'+${prop.propId}}" th:text="${prop.propertyBasic.projectName}"></a>
+                                                            </h2>
+                                                            <h3 th:text="${prop.propertyBasic.propLocation}"></h3>
+                                                            <div class="actions">
+                                                                <!--div class="actions-button">
+                                                                    <span></span>
+                                                                    <span></span>
+                                                                    <span></span>
+                                                                </div-->
+                                                                <!-- /.actions-button -->
+                                                                <!--ul class="actions-list">
+                                                                    <li><a href="#">Add to compare</a></li>
+                                                                    <li><a href="#">Add to favorites</a></li>
+                                                                    <li><a href="#">Report listing</a></li>
+                                                                </ul-->
+                                                                <!-- /.actions-list -->
+                                                            </div>
+                                                            <!-- /.actions -->
+                                                        </div>
+                                                        <!-- /.listing-box-content -->
+                                                        <div class="listing-box-attributes">
+                                                            <dl>
+                                                                <dt><i class="fa fa-bed"></i>&nbsp;No. of Bed Rooms</dt>
+                                                                <dd th:text="${prop.noBeds}"></dd>
+                                                                <dt><i class="fa fa-building"></i>&nbsp;Floors</dt>
+                                                                <dd th:if="${prop.floorNo} != null and ${prop.noFloors} != null">
+                                                                    <span th:text="${prop.floorNo} + ' of ' + ${prop.noFloors}"></span>
+                                                                </dd>
+                                                                <dt><i class="fa fa-inr"></i>&nbsp;Price</dt>
+                                                                <dd th:if="${prop.priceSft} != null and ${prop.propertyBasic.rentSale} == 'Sale'">
+                                                                    <span th:text="${#numbers.formatDecimal(prop.priceSft, 1, 0)}"></span>&nbsp;/ sqft.
+                                                                </dd>
+                                                                <dd th:if="${prop.propertyBasic} != null and ${prop.propertyBasic.rentAmount} != null
+                                                                    and ${prop.propertyBasic.rentSale} == 'Rent'">
+                                                                    <span th:text="${#numbers.formatDecimal(prop.propertyBasic.rentAmount, 1, 0)}"></span>&nbsp;/ mo.
+                                                                </dd>
+                                                                <dt><i class="fa fa-arrows"></i>&nbsp;Area</dt>
+                                                                <dd th:if="${prop.areaSft} != null">
+                                                                    <span th:text="${#numbers.formatDecimal(prop.areaSft, 1, 0)}"></span>&nbsp;sqft
+                                                                </dd>
+                                                            </dl>
+                                                        </div>
+                                                        <!-- /.listing-box-attributes -->
+                                                        <!--<div class="listing-box-attributes-icons">
+                                                            <ul>
+                                                                <li th:if="${prop.areaSft} != null">
+                                                                    <i class="fa fa-arrows"></i>
+                                                                    <span th:text="${#numbers.formatDecimal(prop.areaSft, 1, 0)}"></span>&nbsp;sqft
+                                                                </li>
+                                                                <li><i class="fa fa-shower"></i> <span>2</span></li>
+                                                                <li><i class="fa fa-car"></i> <span>1</span></li>
+                                                            </ul>
+                                                        </div>-->
+                                                        <!-- /.listing-box-attributes -->
+                                                    </div>
+                                                    <!-- /.listing-box-inner -->
+                                                </div>
+                                                <!-- /.listing-box -->
+                                            </div>
+                                            <!-- /.col-* -->
+                                        </div>
+                                        <!-- /.row -->
+                                    </div>
+                                    <!-- /.listing-boxes -->
+                                </div>
+                                <!-- /.tab-pane -->
+                            </div>
+                            <!-- /.listing-tabs-content -->
+                        </div>
+                        <!-- /.listing-tabs -->
+                        <div class="testimonials-wrapper">
+                            <div class="row">
+                                <div class="col-lg-7 push-lg-2">
+                                    <div class="testimonials">
+                                        <div class="testimonial-inner">
+                                            <blockquote>
+                                                Aenean porta sem a nulla vehicula commodo. Quisque eleifend mollis
+                                                tincidunt. Phasellus purus leo, facilisis in egestas non, gravida non
+                                                felis. Nullam sit amet vestibulum leo.
+                                            </blockquote>
+                                            <div class="testimonial-user">
+                                                <span class="testimonial-user-avatar"
+                                                      style="background-image: url('img/tmp/user-1.jpg');"></span>
+                                                <span class="testimonial-user-name">
+                              <strong>Barbara B. Reid</strong>
+                              <span>CEO at Super Company</span>
+                            </span>
+                                            </div>
+                                            <!-- /.testimonial-user -->
+                                        </div>
+                                        <!-- /.testimonial-inner -->
+                                        <div class="testimonial-inner">
+                                            <blockquote>
+                                                Aenean porta sem a nulla vehicula commodo. Quisque eleifend mollis
+                                                tincidunt. Phasellus purus leo, facilisis in egestas non, gravida non
+                                                felis. Nullam sit amet vestibulum leo.
+                                            </blockquote>
+                                            <div class="testimonial-user">
+                                                <span class="testimonial-user-avatar"
+                                                      style="background-image: url('img/tmp/user-2.jpg');"></span>
+                                                <span class="testimonial-user-name">
+                              <strong>Barbara B. Reid</strong>
+                              <span>CEO at Super Company</span>
+                            </span>
+                                            </div>
+                                            <!-- /.testimonial-user -->
+                                        </div>
+                                        <!-- /.testimonial-inner -->
+                                        <div class="testimonial-inner">
+                                            <blockquote>
+                                                Aenean porta sem a nulla vehicula commodo. Quisque eleifend mollis
+                                                tincidunt. Phasellus purus leo, facilisis in egestas non, gravida non
+                                                felis. Nullam sit amet vestibulum leo.
+                                            </blockquote>
+                                            <div class="testimonial-user">
+                                                <span class="testimonial-user-avatar"
+                                                      style="background-image: url('img/tmp/user-3.jpg');"></span>
+                                                <span class="testimonial-user-name">
+                              <strong>Barbara B. Reid</strong>
+                              <span>CEO at Super Company</span>
+                            </span>
+                                            </div>
+                                            <!-- /.testimonial-user -->
+                                        </div>
+                                        <!-- /.testimonial-inner -->
+                                        <div class="testimonial-inner">
+                                            <blockquote>
+                                                Aenean porta sem a nulla vehicula commodo. Quisque eleifend mollis
+                                                tincidunt. Phasellus purus leo, facilisis in egestas non, gravida non
+                                                felis. Nullam sit amet vestibulum leo.
+                                            </blockquote>
+                                            <div class="testimonial-user">
+                                                <span class="testimonial-user-avatar"
+                                                      style="background-image: url('img/tmp/user-4.jpg');"></span>
+                                                <span class="testimonial-user-name">
+                              <strong>Barbara B. Reid</strong>
+                              <span>CEO at Super Company</span>
+                            </span>
+                                            </div>
+                                            <!-- /.testimonial-user -->
+                                        </div>
+                                        <!-- /.testimonial-inner -->
+                                        <div class="testimonial-inner">
+                                            <blockquote>
+                                                Aenean porta sem a nulla vehicula commodo. Quisque eleifend mollis
+                                                tincidunt. Phasellus purus leo, facilisis in egestas non, gravida non
+                                                felis. Nullam sit amet vestibulum leo.
+                                            </blockquote>
+                                            <div class="testimonial-user">
+                                                <span class="testimonial-user-avatar"
+                                                      style="background-image: url('img/tmp/user-5.jpg');"></span>
+                                                <span class="testimonial-user-name">
+                              <strong>Barbara B. Reid</strong>
+                              <span>CEO at Super Company</span>
+                            </span>
+                                            </div>
+                                            <!-- /.testimonial-user -->
+                                        </div>
+                                        <!-- /.testimonial-inner -->
+                                    </div>
+                                    <!-- /.testimonials -->
+                                </div>
+                                <!-- /.col-* -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                        <!-- /.testimonials-wrapper  -->
+                    </div>
+                    <!-- /.content -->
+                </div>
+                <!-- /.container -->
+            </div>
+            <!-- /.main-inner -->
+        </div>
+        <!-- /.main -->
+    </div>
+    <!-- /.main-wrapper -->
+    <div th:replace="includes/footer :: footer"></div>
+    <script type="text/javascript" src="/js/index.js"></script>
+    <script th:inline="javascript">
+        $( function() {
+            var meta = [[${meta}]];
+            applyMeta(meta);
+            $('#rentOrSale').on('change', function() {
+                window.location.href = '/?rentSale='+this.value;
+            });
+        });
+        $(document).ready(function () {
+            $('#searchForm').validate({ // initialize the plugin
+              rules: {
+                  propType : {
+                    required: true
+                  },
+                  rentOrSale : {
+                    required: true
+                  },
+                  location : {
+                    required: true
+                  }
+                },
+                submitHandler: function (form) {
+                  $("body").addClass("loading");
+                  form.submit();
+                }
+            });
+        });
+    </script>
+    <!-- /.page-wrapper -->
+    <div class="modal"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<div class="page-wrapper" th:fragment="content">
+    <div th:replace="includes/navbar :: navbar"></div>
+    <div class="page-wrapper">
+        <div class="main-wrapper">
+            <div class="main">
+                <div class="main-inner">
+                    <div class="page-title">
+                        <div class="container-fluid">
+                            <h1>Showing properties for <span th:text="${rentOrSale}"></span></h1>
+                        </div>
+                        <!-- /.container-fluid -->
+                    </div>
+                    <!-- /.page-title -->
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-4 col-md-3 sidebar-wrapper-col">
+                                <div class="meta-content" id="meta-content">
+                                    <div th:replace="sidebar :: sidebar"></div>
+                                </div>
+                            </div>
+                            <!-- /.col-* -->
+                            <div class="col-sm-8 col-md-9">
+                                <div class="content" id="content">
+                                    <div th:replace="results :: results"></div>
+                                </div>
+                                <!-- /.content -->
+                            </div>
+                            <!-- /.col-* -->
+                        </div>
+                    </div>
+                    <!-- /.container-fluid -->
+                </div>
+                <!-- /.main-inner -->
+            </div>
+            <!-- /.main -->
+        </div>
+        <!-- /.main-wrapper -->
+    </div>
+    <!-- /.page-wrapper -->
+    <div th:replace="includes/footer :: footer"></div>
+    <script th:inline="javascript">
+       $( function() {
+            $("body").addClass("loading");
+            $('.filters').tagsinput({
+              itemValue: 'value',
+              itemText: 'text',
+            });
+            var results = [[${results}]];
+            var meta = [[${meta}]];
+            var city = [[${city}]];
+            var propType = [[${propType}]];
+            var propStatus = [[${propStatus}]];
+            var minPrice = [[${minPrice}]];
+            var maxPrice = [[${maxPrice}]];
+
+            if(minPrice != null && minPrice != '' && maxPrice != null && maxPrice != '') {
+                meta.minPrice = minPrice;
+                meta.maxPrice = maxPrice;
+            }
+
+            applyMetaData(meta);
+
+            if(city != null && city !=undefined) {
+                $('#location').val(city);
+                $('.filters').tagsinput('add', { "value": 'location', "text": city, "type": "select" });
+            }
+
+            if(propType != null && propType !=undefined) {
+                $.each($("input[type=checkbox]"), function(){
+                    if($(this).val() == propType) {
+                        $(this).prop('checked', true);
+                        $('.filters').tagsinput('add', { "value": this.id, "text": this.value, "type": "checkbox" });
+                    }
+                });
+            }
+
+            if(propStatus != null && propStatus !=undefined) {
+                $.each($("input[type=checkbox]"), function(){
+                    if($(this).val() == propStatus) {
+                        $(this).prop('checked', true);
+                        $('.filters').tagsinput('add', { "value": this.id, "text": this.value, "type": "checkbox" });
+                    }
+                });
+            }
+
+            $("body").removeClass("loading");
+            $('#location').on('blur', function() {
+                //if(this.value != 'select') {
+                    $('.filters').tagsinput('remove', { "value": 'location' });
+                    $('.filters').tagsinput('add', { "value": 'location', "text": $('#location').val(), "type": "input" });
+                //} else {
+                    //$('.filters').tagsinput('remove', { "value": 'location' });
+                //}
+            });
+        });
+
+    </script>
+    <script>
+        function initMap() {
+            initialize();
+        }
+        var autocomplete;
+        function initialize() {
+          //types - geocode, establishment, address, (regions), (cities)
+          autocomplete = new google.maps.places.Autocomplete(
+              /** @type {HTMLInputElement} */(document.getElementById('location')),
+              { types: ['geocode'], componentRestrictions: {country: "IN"} });
+          google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            $('.filters').tagsinput('remove', { "value": 'location' });
+            $('.filters').tagsinput('add', { "value": 'location', "text": $('#location').val(), "type": "input" });
+          });
+        }
+    </script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBE49eJ-hTzLNA7IKZ2DOnW-4BBHDzDXlA&libraries=places&region=in&callback=initMap"
+    ></script>
+</div>
+<div class="modal"></div>

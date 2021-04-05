@@ -1,0 +1,59 @@
+@import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
+.navbar {
+    /*border-bottom: 1px solid rgb(140, 198, 64);*/
+    margin-bottom: 0px;
+}
+/*.navbar .navbar-brand {
+    height: auto;
+}*/
+.login-block{
+    background: #eee;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #fafafa, #eee);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #fafafa, #eee); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    float:left;
+    width:100%;
+    padding : 50px 0;
+    height: 100%;
+    position: absolute;
+}
+.banner-sec{background:url(https://static.pexels.com/photos/33972/pexels-photo.jpg)  no-repeat left bottom; background-size:cover; min-height:500px; border-radius: 0 10px 10px 0; padding:0;}
+.container{background:#fff; border-radius: 10px; box-shadow:15px 20px 0px rgba(0,0,0,0.1);}
+.carousel-inner{border-radius:0 10px 10px 0;}
+.carousel-caption{text-align:left; left:5%;}
+.login-sec{padding: 50px 30px; position:relative;border: 1px solid #8cc63f;}
+.login-sec .copy-text{position:absolute; width:80%; bottom:20px; font-size:13px; text-align:center;}
+.login-sec .copy-text i{color:#f44336;}
+.login-sec .copy-text a{color:#f44336;}
+.login-sec h2{margin-bottom:40px; font-weight:600; font-size:21px; color: #f44336;}
+.login-sec h2:after{content:" "; width:0px; height:3px; background:#942bae; display:block; margin-top:0px; border-radius:3px; margin-left:auto;margin-right:auto}
+.btn-login{background: #f44336; color:#fff; font-weight:600;}
+.banner-text{width:70%; position:absolute; bottom:40px; padding-left:20px;}
+.banner-text h2{color:#fff; font-weight:600;}
+.banner-text h2:after{content:" "; width:100px; height:5px; background:#FFF; display:block; margin-top:20px; border-radius:3px;}
+.banner-text p{color:#fff;}
+.form-control-feedback {
+    bottom: 0;
+    right: 0;
+    font-size: 14px;
+    width: 100%;
+    top: auto;
+}
+.form-check, label {
+    font-size: 16px;
+    line-height: 1.42857;
+    color: #333;
+    font-weight: 400;
+}
+.btn.btn-info {
+    color: #fff;
+    background-color: #2196f3 !important;
+    border-color: #2196f3 !important;
+    box-shadow: none;
+  }
+.has-danger .form-control:invalid {
+    background-image: linear-gradient(to top, #f44336 2px, rgba(244, 67, 54, 0) 2px), linear-gradient(to top, #f44336 1px, rgba(210, 210, 210, 0) 1px);
+}
+
+.img-fluid {
+    height: 536px;
+}

@@ -1,0 +1,74 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-success">
+            <p class="card-title" *ngIf="propertyId == '' || propertyId == undefined">Start submitting your property</p>
+            <p class="card-title" *ngIf="propertyId != '' && propertyId != undefined">Property Id: {{propertyId}}</p>
+          </div>
+          <div class="card-body">
+            <mat-horizontal-stepper [linear]="true" #stepper [selectedIndex]="selectedStep"
+              (selectionChange)="setSelectedStep($event)">
+
+              <!-- BASIC FORM -->
+              <mat-step>
+                <ng-template matStepLabel>Basic Information</ng-template>
+                <app-basic (onPropIdChange)="getPropertyId($event)"></app-basic>
+              </mat-step>
+
+              <!-- FLOOR PLAN FORM -->
+              <mat-step>
+                <ng-template matStepLabel>Floor Plan</ng-template>
+                <ng-container *ngIf="stepper.selectedIndex == 1">
+                  <app-floor-plan></app-floor-plan>
+                </ng-container>
+              </mat-step>
+
+              <!-- AMENITIES FORM -->
+              <mat-step>
+                <ng-template matStepLabel>Amenities</ng-template>
+                <ng-container *ngIf="stepper.selectedIndex == 2">
+                  <app-prop-amenities></app-prop-amenities>
+                </ng-container>
+              </mat-step>
+
+              <!-- GALLERY FORM -->
+              <mat-step>
+                <ng-template matStepLabel>Gallery</ng-template>
+                <ng-container *ngIf="stepper.selectedIndex == 3">
+                  <app-prop-gallery></app-prop-gallery>
+                </ng-container>
+              </mat-step>
+
+              <!-- MATERIAL FORM -->
+              <mat-step *ngIf="getRentOrSale() == 'Sale'">
+                <ng-template matStepLabel>Materials</ng-template>
+                <ng-container *ngIf="stepper.selectedIndex == 4">
+                  <app-prop-material></app-prop-material>
+                </ng-container>
+              </mat-step>
+
+              <!-- NEARBY FORM-->
+              <mat-step>
+                <ng-template matStepLabel>Nearby</ng-template>
+                <ng-container *ngIf="(getRentOrSale() == 'Sale' && stepper.selectedIndex == 5) || (getRentOrSale() == 'Rent' && stepper.selectedIndex == 4)">
+                  <app-prop-nearby></app-prop-nearby>
+                </ng-container>
+              </mat-step>
+
+              <!-- BANKS FORM-->
+              <mat-step *ngIf="getRentOrSale() == 'Sale'">
+                <ng-template matStepLabel>Home Loan</ng-template>
+                <ng-container *ngIf="stepper.selectedIndex == 6">
+                  <app-prop-banks></app-prop-banks>
+                </ng-container>
+              </mat-step>
+
+            </mat-horizontal-stepper>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head th:replace="includes/header :: head"></head>
+<body>
+<div class="page-wrapper">
+    <div th:replace="includes/navbar :: navbar"></div>
+    <div class="main-wrapper">
+        <div class="main">
+            <div class="main-inner">
+                <div class="page-title">
+                    <div class="container">
+                        <h1>User Registration</h1>
+                    </div>
+                    <!-- /.container-->
+                </div>
+                <!-- /.page-title -->
+                <div class="container">
+                    <div class="row mb80">
+                        <div class="col-sm-4 offset-sm-4">
+                            <h3 class="page-title-small text-center"><i class="fa fa-user-plus fa-3x"
+                                                                        style="color: #00ad79;"></i></h3>
+                            <div class="alert alert-danger" style="display: none;"></div>
+                            <div class="alert alert-success" style="display: none;"></div>
+                            <form id="signupForm">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="name" id="name" placeholder="Full Name">
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Email Address">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="contact" id="contact" placeholder="Contact Number">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="username" id="username" placeholder="Choose User Name">
+                                </div>
+                                <!-- /.form-group -->
+                                <div class="form-group">
+                                    <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="city" id="city" placeholder="City">
+                                </div>
+                                <div class="form-group">
+                                    <textarea class="form-control" name="address" id="address" placeholder="Address"></textarea>
+                                </div>
+                                <!-- /.form-group -->
+                                <button type="submit" class="btn btn-primary pull-right">Register</button>
+                            </form>
+                            <form id="otpForm">
+                                <h4>Please submit </h4>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="token" id="token" placeholder="Enter OTP">
+                                </div>
+                                <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                            </form>
+                        </div>
+                        <!-- /.col-sm-4 -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- /.main-inner -->
+        </div>
+        <!-- /.main -->
+    </div>
+    <!-- /.main-wrapper -->
+    <div th:replace="includes/footer :: footer"></div>
+    <script type="text/javascript" src="/js/additional-methods.js"></script>
+    <script type="text/javascript" src="/js/form.js"></script>
+    <!-- /.page-wrapper -->
+    <div class="modal"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<style>
+  .navbar .collapse .navbar-nav .nav-item.active > a{
+    border-bottom: 2px solid #8fc843;
+    border-radius: 0px;
+  }
+  .navbar .collapse .navbar-nav .nav-item {
+    padding-right: 10px;
+  }
+  .navbar .collapse .navbar-nav .nav-item .nav-link {
+    color: #86bd2e;
+      font-size: 1.1em;
+      padding: 6px 0px !important;
+      border-radius: 5px;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 400;
+      text-transform: none;
+  }
+</style>
+<nav class="navbar navbar-expand-lg  ">
+  <div class="container" style="box-shadow: none; border-radius: 0;">
+      <div class="navbar-wrapper">
+        <a class="navbar-brand" style="min-height: 40px;margin-bottom: 10px;" href="#"><img src="assets/img/Pro1.png" width="100%" /></a>
+      </div> 
+      <button mat-raised-button class="navbar-toggler" type="button">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon icon-bar"></span>
+          <span class="navbar-toggler-icon icon-bar"></span>
+          <span class="navbar-toggler-icon icon-bar"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navigation">
+          <ul class="navbar-nav">
+              <li class="nav-item" id="link1"><a class="nav-link" href="https://propmitra.com">Home</a></li>
+              <li class="nav-item" id="link2"><a class="nav-link" href="https://propmitra.com#work">Projects</a></li>
+              <li class="nav-item" id="link3"><a class="nav-link" href="/register">Registration</a></li>
+              <li class="nav-item active" id="link4"><a class="nav-link" href="/login">Login</a></li>
+              <li class="nav-item" id="link5"><a class="nav-link" href="https://propmitra.com#contactUs">Contact Us</a></li>
+          </ul>
+      </div>
+  </div>
+</nav>
+<section class="login-block">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 login-sec">
+        <h2 class="text-center"><i class="material-icons" style="font-size: 6em;color: #8cc63f;">account_circle</i></h2>
+        <form class="login-form" novalidate [formGroup]="loginform">
+          <div class="form-group" [ngClass]="{
+        'has-danger': email.invalid && (email.dirty || email.touched),
+        'has-success': email.valid && (email.dirty || email.touched)
+      }">
+            <label for="exampleInputEmail1">User Name</label>
+            <input type="text" class="form-control" placeholder="" formControlName="email" required><br />
+            <div class="form-control-feedback" *ngIf="email.errors && (email.dirty || email.touched)">
+              <p *ngIf="email.errors.required">User Name is required</p>
+            </div>
+          </div>
+          <div class="form-group" [ngClass]="{
+        'has-danger': password.invalid && (password.dirty || password.touched),
+        'has-success': password.valid && (password.dirty || password.touched)
+      }">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" placeholder="" formControlName="password" required><br />
+            <div class="form-control-feedback" *ngIf="password.errors && (password.dirty || password.touched)">
+              <p *ngIf="password.errors.required">Password is required</p>
+            </div>
+          </div>
+
+
+          <div class="form-check">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input">
+              <small></small>
+            </label>
+            <button class="btn btn-info float-right" (click)="login()">Submit</button>
+            <a href="/forgotpwd">Forgot Password</a>
+          </div>
+
+        </form>
+      </div>
+      <div class="col-md-8 banner-sec">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+          </ol>
+          <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active">
+              <img class="d-block img-fluid" src="assets/img/bg1.jpg"
+                alt="First slide">
+              <div class="carousel-caption d-none d-md-block">
+                <div class="banner-text">
+                  <h2>This is Heaven</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img class="d-block img-fluid" src="assets/img/bg2.jpg"
+                alt="First slide">
+              <div class="carousel-caption d-none d-md-block">
+                <div class="banner-text">
+                  <h2>This is Heaven</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img class="d-block img-fluid" src="assets/img/bg3.jpg"
+                alt="First slide">
+              <div class="carousel-caption d-none d-md-block">
+                <div class="banner-text">
+                  <h2>This is Heaven</h2>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                    labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

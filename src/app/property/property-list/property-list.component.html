@@ -1,0 +1,111 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <a mat-raised-button routerLink="/submit-listing/new" color="primary" class="pull-right">
+          <mat-icon>playlist_add</mat-icon>&nbsp;Add Property
+        </a>
+      </div>
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-success">
+            <h4 class="card-title ">My Properties</h4>
+            <!--p class="card-category">Here is the list of properties added by you!</p-->
+          </div>
+          <div class="card-body">
+
+            <div class="">
+              <table mat-table [dataSource]="dataSource">
+                <!-- Property image Column -->
+                <!--ng-container matColumnDef="propImg">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element">
+                      <div *ngIf="element.propertyBasic.frontImage != undefined">
+                        <img src="data:{{element.propertyBasic.frontImage.fileType}};base64,{{element.propertyBasic.frontImage.data}}" 
+                        width="60" />
+                      </div>
+                      </td>
+                  </ng-container-->
+
+                <!-- Property Id Column -->
+                <ng-container matColumnDef="propId">
+                  <th mat-header-cell *matHeaderCellDef> Property Id </th>
+                  <td mat-cell *matCellDef="let element">
+                      <a routerLink="/submit-listing/{{element.id}}" class="text-primary">{{element.propId}}</a></td>
+                </ng-container>
+
+                <!-- Rent / Sale Column -->
+                <ng-container matColumnDef="rentSale">
+                  <th mat-header-cell *matHeaderCellDef> Rent / Sale </th>
+                  <td mat-cell *matCellDef="let element"> {{element.rentSale}} </td>
+                </ng-container>
+
+                <!-- Property Age Column -->
+                <ng-container matColumnDef="noBeds">
+                  <th mat-header-cell *matHeaderCellDef> BHK Type </th>
+                  <td mat-cell *matCellDef="let element"> {{element.noBeds}} </td>
+                </ng-container>
+
+                <!-- Property Name Column -->
+                <ng-container matColumnDef="projectName">
+                  <th mat-header-cell *matHeaderCellDef> Property Name </th>
+                  <td mat-cell *matCellDef="let element"> {{element.projectName}} </td>
+                </ng-container>
+
+                <!-- Total Value Column -->
+                <ng-container matColumnDef="totalValue">
+                  <th mat-header-cell *matHeaderCellDef> Rent / Price </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element.totalValue | currency : 'INR' : true : '' : 'en-IN'}} </td>
+                </ng-container>
+
+                <!-- isActive Column -->
+                <ng-container matColumnDef="isActive">
+                  <th mat-header-cell *matHeaderCellDef> Active </th>
+                  <td mat-cell *matCellDef="let element">
+                    <mat-checkbox [checked]="element.isActive == 1" [indeterminate]="element.isActive == 0"
+                      [disabled]="true">
+                    </mat-checkbox>
+                  </td>
+                </ng-container>
+
+                <!-- isVerified Column -->
+                <ng-container matColumnDef="isVerified">
+                  <th mat-header-cell *matHeaderCellDef> Verified </th>
+                  <td mat-cell *matCellDef="let element">
+                    <mat-checkbox [checked]="element.isVerified == 1" [indeterminate]="element.isVerified == 0"
+                      [disabled]="true">
+                    </mat-checkbox>
+                  </td>
+                </ng-container>
+
+                <!-- Posted Date Column -->
+                <ng-container matColumnDef="createdAt">
+                  <th mat-header-cell *matHeaderCellDef> Posted Date </th>
+                  <td mat-cell *matCellDef="let element"> {{element.createdAt}} </td>
+                </ng-container>
+
+                <!-- progress Column -->
+                <ng-container matColumnDef="progress">
+                  <th mat-header-cell *matHeaderCellDef> Profile </th>
+                  <td mat-cell *matCellDef="let element"> {{element.progress}} %
+                    <mat-progress-bar class="example-margin" [color]="primary" [mode]="determinate"
+                      [value]="element.progress">
+                    </mat-progress-bar>
+                  </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+
+              <mat-paginator [length]="resultsLength" [pageIndex]="pageIndex" (page)="pageEvent = handlePage($event)" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

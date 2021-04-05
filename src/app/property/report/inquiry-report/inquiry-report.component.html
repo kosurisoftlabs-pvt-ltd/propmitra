@@ -1,0 +1,103 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4 col-xs-12" style="padding-top: 28px;">
+          <mat-radio-group aria-label="Select an option" [(ngModel)]="serachType">
+            <span style="color: #333333; font-size: 16px; font-weight: 500">Filter by:&nbsp;&nbsp;</span>
+            <mat-radio-button value="username">Name&nbsp;&nbsp;</mat-radio-button>
+            <mat-radio-button value="dateRange">Date Ranage</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="col-md-6 col-xs-12">
+          <form [formGroup]="inactiveForm" (ngSubmit)="searchProperties()">
+              <div class="row">
+            <div class="col-md-8 col-xs-8">
+              <mat-form-field *ngIf="serachType == 'dateRange'">
+                <input matInput placeholder="Choose date range" [max]="maxDate" [satDatepicker]="picker2" formControlName="date">
+                <sat-datepicker #picker2 [rangeMode]="true">
+                </sat-datepicker>
+                <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>
+              </mat-form-field>
+              <mat-form-field *ngIf="serachType == 'username'">
+                <input matInput placeholder="Enter {{reportType}} name" formControlName="username">
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 col-xs-4">
+              <button class="btn btn-info" type="submit" mat-button>Filter</button>
+            </div>
+              </div>
+          </form>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-success">
+            <h4 class="card-title ">Site Visit Report by {{reportType}}</h4>
+            <p class="card-category">Here is the list of site visit requests for {{reportType}}!</p>
+          </div>
+          <div class="card-body">
+              <div class="text-center text-danger" *ngIf="inqList.length == 0">
+                <h5>No inquiries found. Try with different search value.</h5>
+              </div>
+            <div class="">
+              <table mat-table [dataSource]="dataSource">
+
+                <!-- Property Id Column -->
+                <ng-container matColumnDef="propId">
+                  <th mat-header-cell *matHeaderCellDef> Property Id </th>
+                  <td mat-cell *matCellDef="let element">
+                    <a routerLink="/view-property/{{element.pId}}/view" class="text-primary">{{element.propId}}</a>
+                  </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef> Customer Name </th>
+                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+
+                <!-- Email Column -->
+                <ng-container matColumnDef="email">
+                  <th mat-header-cell *matHeaderCellDef> Email </th>
+                  <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                </ng-container>
+
+                <!-- Contact Column -->
+                <ng-container matColumnDef="contact">
+                  <th mat-header-cell *matHeaderCellDef> Contact No. </th>
+                  <td mat-cell *matCellDef="let element"> {{element.contact}} </td>
+                </ng-container>
+
+                <!-- Message Column -->
+                <ng-container matColumnDef="message">
+                  <th mat-header-cell *matHeaderCellDef> Message </th>
+                  <td mat-cell *matCellDef="let element"> {{element.message}} </td>
+                </ng-container>
+
+                <!-- Inquiry Date Column -->
+                <ng-container matColumnDef="createdAt">
+                  <th mat-header-cell *matHeaderCellDef> Inquiry Date </th>
+                  <td mat-cell *matCellDef="let element"> {{element.createdAt}} </td>
+                </ng-container>
+
+                <!-- User Column -->
+                <ng-container matColumnDef="username">
+                  <th mat-header-cell *matHeaderCellDef> {{reportType}}&nbsp; Name</th>
+                  <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+
+              <mat-paginator [length]="resultsLength" [pageIndex]="pageIndex" (page)="pageEvent = handlePage($event)" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

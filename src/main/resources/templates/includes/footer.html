@@ -1,0 +1,139 @@
+<div th:fragment="footer">
+    <div class="footer-wrapper">
+        <div class="footer">
+            <div class="footer-inner">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="widget">
+                                <h3>
+                                    <a href="/">
+                                        <img src="/img/pm.png" alt="Propmitra" style="max-height: 50px;">
+                                    </a><br />
+                                    <!--<span style="font-size: 14px;">About Propmitra</span>-->
+                                </h3>
+                                <p class=""><strong>propmitra</strong> is a new rental platform that makes it easier to find your new Rentals without paying any brokerage. Use our verified listing to ensure you find your dream Flat by contacting the owners directly. propmitra is a new Sale platform that makes it easier to Sale your Flats without paying any brokerage.
+                                    please post a requirement and we'll send you email notification with properties matching your requirements. </p>
+                                <ul class="social">
+                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-google"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- /.col-* -->
+                        <div class="col-lg-4">
+                            <div class="widget">
+                                <h3><span style="font-size: 12px;left: 25%; position: relative;">Site Menu</span></h3>
+                                <ul class="nav nav-pills" style="display: grid; left: 25%;">
+                                    <li class="nav-item">
+                                        <a href="/" class="nav-link">Home</a>
+                                    </li>
+                                    <li class="nav-item" sec:authorize="!isAuthenticated()">
+                                        <a href="/signup" class="nav-link ">Registration</a>
+                                    </li>
+                                    <li class="nav-item" sec:authorize="!isAuthenticated()">
+                                        <a href="/signin" class="nav-link ">Login</a>
+                                    </li>
+                                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                                        <a href="/profile" class="nav-link ">My Profile</a>
+                                    </li>
+                                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                                        <a href="/dashboard" class="nav-link ">Dashboard</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/#contactUs" class="nav-link ">Contact Us</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- /.widget -->
+                        </div>
+                        <!-- /.col-* -->
+                        <div class="col-lg-4">
+                            <div class="widget">
+                                <h3><span style="font-size: 12px;">Contact Us</span></h3>
+                                <ul class="nav">
+                                    <li><i class="fa fa-map-marker fa-lg"></i>&nbsp;&nbsp;&nbsp;&nbsp;Unit - 602, Level 6,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Manjeera Majestic Commercial,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hi-Tech City Road,KPHB,<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hyderabad - 500072, Telangana<br />
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;India
+                                    </li>
+                                    <li><i class="fa fa-phone"></i>&nbsp;&nbsp;&nbsp;&nbsp;040 - 40191909</li>
+                                    <li><i class="fa fa-envelope-o"></i>&nbsp;&nbsp;&nbsp;&nbsp;info@propmitra.com</li>
+                                    <li><i class="fa fa-globe"></i>&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://propmitra.com">www.propMitra.com</a></li>
+                                    &nbsp;
+                                </ul>
+                                <!--<p>
+                                    Join our newsletter for the most recent information. FYI this is not working form, just an example.
+                                </p>
+                                <form method="post">
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" placeholder="Your e-mail address">
+                                    </div>
+                                    <div class="form-group clearfix">
+                                        <button type="submit" class="btn btn-primary pull-right">Join Newsletter</button>
+                                    </div>
+                                </form>-->
+                            </div>
+                            <!-- /.widget -->
+                        </div>
+                        <!-- /.col-* -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container -->
+            </div>
+            <!-- /.footer-inner -->
+        </div>
+        <!-- /.footer -->
+    </div>
+    <div class="footer-wrapper footer-line">
+        <div class="footer">
+            <div class="footer-inner clearfix">
+                <div class="container-fluid">
+                    <div class="text-center">
+                        Developed and Maintained by Kosuri Soft Labs Pvt Ltd
+                    </div>
+                    <!-- /.footer-line-left -->
+                    <!--<div class="footer-line-right">
+                        <ul class="nav nav-line">
+
+                        </ul>
+                    </div>-->
+                    <!-- /.footer-line-right -->
+                </div>
+                <!-- /.container -->
+            </div>
+            <!-- /.footer-inner -->
+        </div>
+        <!-- /.footer -->
+    </div>
+    <!-- /.footer-wrapper -->
+    <!-- javascripts -->
+    <!--script src="http://maps.googleapis.com/maps/api/js?libraries=weather,geometry,visualization,places,drawing&key=AIzaSyDmXybAJzoPZ6hH-Jhv7QMCSGgQ6MY8WqY"
+            type="text/javascript"></script-->
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="/js/tether.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/chartist.min.js"></script>
+    <!--script type="text/javascript" src="/js/google-map-richmarker.min.js"></script>
+    <script type="text/javascript" src="/js/google-map-infobox.min.js"></script>
+    <script type="text/javascript" src="/js/google-map-markerclusterer.js"></script>
+    <script type="text/javascript" src="/js/google-map.js"></script-->
+    <script type="text/javascript" src="/js/jquery.trackpad-scroll-emulator.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.inlinesvg.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.affix.js"></script>
+    <script type="text/javascript" src="/js/jquery.scrollTo.js"></script>
+    <script type="text/javascript" src="/libraries/slick/slick.min.js"></script>
+    <script type="text/javascript" src="/js/nouislider.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.raty.js"></script>
+    <script type="text/javascript" src="/js/wNumb.js"></script>
+    <script type="text/javascript" src="/js/particles.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-tagsinput.min.js"></script>
+    <script type="text/javascript" src="/js/explorer.js"></script>
+    <script type="text/javascript" src="/js/properties.js"></script>
+    <script type="text/javascript" src="/js/jquery.validate.min.js"></script>
+    <!--script type="text/javascript" src="/js/explorer-map-search.js"></script-->
+</div>

@@ -1,0 +1,157 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 col-xs-12">
+        <div class="card">
+          <div class="card-header card-header-success">
+            <h4 class="card-title ">Verify Properties</h4>
+            <p class="card-category">Verify Agent / Owner / Builder active properties. Inactive properties will not be
+              verified.</p>
+          </div>
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-9 col-xs-12" style="margin: 20px;">
+              <mat-radio-group aria-label="Select an option" [(ngModel)]="serachType">
+                <span style="color: #333333; font-size: 16px; font-weight: 500">Search Property by:&nbsp;&nbsp;</span>
+                <mat-radio-button value="propId">Property Id&nbsp;&nbsp;</mat-radio-button>
+                <mat-radio-button value="dateRange">Date Ranage</mat-radio-button>
+              </mat-radio-group>
+              <form [formGroup]="verifyForm" style="margin-top: 20px;" (ngSubmit)="searchProperties()">
+                <div class="row">
+                  <div class="col-md-4 col-xs-12">
+                    <mat-form-field *ngIf="serachType == 'dateRange'">
+                      <input matInput placeholder="Choose date range" [max]="maxDate" [satDatepicker]="picker2" formControlName="date">
+                      <sat-datepicker #picker2 [rangeMode]="true">
+                      </sat-datepicker>
+                      <sat-datepicker-toggle matSuffix [for]="picker2"></sat-datepicker-toggle>
+                    </mat-form-field>
+                    <mat-form-field *ngIf="serachType == 'propId'">
+                      <input matInput placeholder="Enter Property Id" formControlName="propId">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4 col-xs-12">
+                    <button class="btn btn-info" type="submit" mat-button>Search</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row" *ngIf="resultsFound">
+            <div class="col-md-12">
+              <div class="text-center text-danger" *ngIf="propList.length == 0">
+                <h5>No properties found. Try with different search value.</h5>
+              </div>
+              <div *ngIf="propList != undefined && propList.length > 0">
+                <form [formGroup]="verifyForm2" enctype="multipart/form-data" style="margin-top: 20px;"
+                  (ngSubmit)="verify()">
+                  <table mat-table [dataSource]="dataSource">
+                    <!-- Checkbox Column -->
+                    <!--ng-container matColumnDef="propIdChk">
+                      <th mat-header-cell *matHeaderCellDef></th>
+                      <td mat-cell *matCellDef="let element; let i = index;">
+                        <mat-checkbox [formControlName]="i"></mat-checkbox>
+                      </td>
+                    </ng-container-->
+                    <!-- Property Id Column -->
+                    <ng-container matColumnDef="propId">
+                      <th mat-header-cell *matHeaderCellDef> Property Id </th>
+                      <td mat-cell *matCellDef="let element">
+                        <a routerLink="/view-property/{{element.id}}/view" class="text-primary">{{element.propId}}</a>
+                      </td>
+                    </ng-container>
+
+                    <!-- Rent / Sale Column -->
+                    <ng-container matColumnDef="propertyBasic.rentSale">
+                      <th mat-header-cell *matHeaderCellDef> Rent / Sale </th>
+                      <td mat-cell *matCellDef="let element">
+                        <span *ngIf="element.propertyBasic != null">
+                          {{element.propertyBasic.rentSale}}
+                        </span>
+                      </td>
+                    </ng-container>
+
+                    <!-- Property Status Column -->
+                    <ng-container matColumnDef="propertyBasic.propStatus">
+                      <th mat-header-cell *matHeaderCellDef> Status </th>
+                      <td mat-cell *matCellDef="let element">
+                        <span *ngIf="element.propertyBasic != null">
+                          {{element.propertyBasic.propStatus}}
+                        </span>
+                      </td>
+                    </ng-container>
+
+                    <!-- isActive Column -->
+                    <ng-container matColumnDef="isActive">
+                      <th mat-header-cell *matHeaderCellDef> Active </th>
+                      <td mat-cell *matCellDef="let element">
+                        <mat-checkbox [checked]="element.isActive == 1" [indeterminate]="element.isActive == 0"
+                          [disabled]="true">
+                        </mat-checkbox>
+                      </td>
+                    </ng-container>
+
+                    <!-- isVerified Column -->
+                    <ng-container matColumnDef="isVerified">
+                      <th mat-header-cell *matHeaderCellDef> Verified </th>
+                      <td mat-cell *matCellDef="let element">
+                        <mat-checkbox [checked]="element.isVerified == 1" [indeterminate]="element.isVerified == 0"
+                          [disabled]="true">
+                        </mat-checkbox>
+                      </td>
+                    </ng-container>
+
+                    <!-- progress Column -->
+                    <ng-container matColumnDef="progress">
+                      <th mat-header-cell *matHeaderCellDef> Profile </th>
+                      <td mat-cell *matCellDef="let element"> {{element.progress}} %
+                        <mat-progress-bar class="example-margin" [color]="primary" [mode]="determinate"
+                          [value]="element.progress">
+                        </mat-progress-bar>
+                      </td>
+                    </ng-container>
+
+                    <!-- createdAt Column -->
+                    <ng-container matColumnDef="createdAt">
+                      <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Created On </th>
+                      <td mat-cell *matCellDef="let element" style="text-align: center;">
+                        <span *ngIf="element.createdAt != null">
+                          {{element.createdAt}}
+                        </span>
+                      </td>
+                    </ng-container>
+
+                    <!-- actions Column -->
+                    <ng-container matColumnDef="actions">
+                      <th mat-header-cell *matHeaderCellDef> Actions </th>
+                      <td mat-cell *matCellDef="let element">
+                        <a href="javascript: void(0);" class="text-danger"
+                          *ngIf="element.isActive == 1 && element.isVerified == 0"
+                          (click)="openDialog(element.id, element.isVerified)">
+                          <i class="fa fa-check-square-o"></i>&nbsp;Verify
+                        </a>
+                        <a href="javascript: void(0);" class="text-info"
+                          *ngIf="element.isActive == 1 && element.isVerified == 1"
+                          (click)="openDialog(element.id, element.isVerified)">
+                          <i class="fa fa-eye-slash"></i>&nbsp;Unverify
+                        </a>
+                      </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+                  <!--div class="col-md-4 col-xs-12">
+                    <mat-form-field>
+                      <textarea matInput placeholder="Verification Comments" formControlName="comments"></textarea>
+                    </mat-form-field>
+                    <div *ngIf="!isPropSelected" style="color: red;">At least one property must be selected</div>
+                    <button class="btn btn-info" type="submit" mat-button>Verify</button>
+                  </div-->
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

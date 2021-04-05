@@ -1,0 +1,217 @@
+@import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
+.navbar {
+    /*border-bottom: 1px solid rgb(140, 198, 64);*/
+    margin-bottom: 0px;
+}
+/*.navbar .navbar-brand {
+    height: auto;
+}*/
+.login-block{
+    background: #eee;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #fafafa, #eee);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #fafafa, #eee); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    float:left;
+    width:100%;
+    padding : 50px 0;
+    height: 100%;
+    position: absolute;
+}
+.banner-sec{background:url(https://static.pexels.com/photos/33972/pexels-photo.jpg)  no-repeat left bottom; background-size:cover; min-height:500px; border-radius: 0 10px 10px 0; padding:0;}
+.container-reg{background:#fff; border-radius: 10px; box-shadow:15px 20px 0px rgba(0,0,0,0.1);border: 1px solid rgb(140, 198, 64);}
+.carousel-inner{border-radius:0 10px 10px 0;}
+.carousel-caption{text-align:left; left:5%;}
+.login-sec{position:relative;}
+.login-sec .copy-text{position:absolute; width:80%; bottom:20px; font-size:13px; text-align:center;}
+.login-sec .copy-text i{color:#f44336;}
+.login-sec .copy-text a{color:#f44336;}
+.login-sec h2{font-weight:normal; font-size:24px; color: #333;}
+.login-sec h2:after{content:" "; width:0px; height:3px; background:#942bae; display:block; margin-top:0px; border-radius:3px; margin-left:auto;margin-right:auto}
+.btn-login{background: #f44336; color:#fff; font-weight:600;}
+.banner-text{width:70%; position:absolute; bottom:40px; padding-left:20px;}
+.banner-text h2{color:#fff; font-weight:600;}
+.banner-text h2:after{content:" "; width:100px; height:5px; background:#FFF; display:block; margin-top:20px; border-radius:3px;}
+.banner-text p{color:#fff;}
+.form-control-feedback {
+    bottom: 0;
+    right: 0;
+    font-size: 12px;
+    width: 100%;
+    top: auto;
+}
+
+.btn.btn-info {
+    color: #fff;
+    background-color: #2196f3 !important;
+    border-color: #2196f3 !important;
+    box-shadow: none;
+  }
+  .form-control {
+    background-image: none;
+  }
+.has-danger .form-control:invalid {
+    /*background-image: linear-gradient(to top, #f44336 2px, rgba(244, 67, 54, 0) 2px), linear-gradient(to top, #f44336 1px, rgba(210, 210, 210, 0) 1px);*/
+    background-image: none;
+    outline:none;
+    border:1px solid #f44336;
+}
+
+.has-success .form-control:valid {
+    /*background-image: linear-gradient(to top, #f44336 2px, rgba(244, 67, 54, 0) 2px), linear-gradient(to top, #f44336 1px, rgba(210, 210, 210, 0) 1px);*/
+    background-image: none;
+    outline:none;
+    border:1px solid rgb(140, 198, 64);
+}
+
+.img-fluid {
+    height: 536px;
+}
+
+.form-control, label, input::placeholder {
+  padding: 2px 5px;
+}
+.floating-form {
+    width:320px;
+  }
+  
+  /****  floating-Lable style start ****/
+  .floating-label { 
+    position:relative; 
+    /*margin-bottom:20px; */
+  }
+  .floating-input , .floating-select {
+    font-size:14px;
+    padding:4px 4px;
+    display:block;
+    width:100%;
+    height:36px;
+    background-color: transparent;
+    border:none;
+    border: 1px solid #9E9E9E;
+    border-radius: 4px;
+    padding: 15px;
+  }
+  
+ /* .floating-input:focus , .floating-select:focus {
+       outline:none;
+       border-bottom:2px solid #5264AE; 
+  }*/
+  
+  label {
+    color:#999; 
+    font-size:14px;
+    font-weight:normal;
+    position:absolute;
+    pointer-events:none;
+    left:5px;
+    top:5px;
+    transition:0.2s ease all; 
+    -moz-transition:0.2s ease all; 
+    -webkit-transition:0.2s ease all;
+  }
+  
+  .floating-input:focus ~ label, .floating-input:not(:placeholder-shown) ~ label {
+    top:-18px;
+    font-size:14px;
+    color:#333;
+    padding: 0px;
+  }
+  
+  .floating-select:focus ~ label , .floating-select:not([value=""]):valid ~ label {
+    top:-25px;
+    font-size:14px;
+    /*color:#333;*/
+  }
+  
+  /* active state */
+  .floating-input:focus ~ .bar:before, .floating-input:focus ~ .bar:after, .floating-select:focus ~ .bar:before, .floating-select:focus ~ .bar:after {
+    width:50%;
+  }
+
+  .form-group {
+    margin: 0px;
+  }
+  
+  *, *:before, *:after {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+  }
+  
+  .floating-textarea {
+     min-height: 30px;
+     max-height: 260px; 
+     overflow:hidden;
+    overflow-x: hidden; 
+  }
+  
+  /* highlighter */
+  .highlight {
+    position:absolute;
+    height:50%; 
+    width:100%; 
+    top:15%; 
+    left:0;
+    pointer-events:none;
+    opacity:0.5;
+  }
+  
+  /* active state */
+  .floating-input:focus ~ .highlight , .floating-select:focus ~ .highlight {
+    -webkit-animation:inputHighlighter 0.3s ease;
+    -moz-animation:inputHighlighter 0.3s ease;
+    animation:inputHighlighter 0.3s ease;
+  }
+  
+  /* animation */
+  @-webkit-keyframes inputHighlighter {
+      from { background:#5264AE; }
+    to 	{ width:0; background:transparent; }
+  }
+  @-moz-keyframes inputHighlighter {
+      from { background:#5264AE; }
+    to 	{ width:0; background:transparent; }
+  }
+  @keyframes inputHighlighter {
+      from { background:#5264AE; }
+    to 	{ width:0; background:transparent; }
+  }
+  
+  /****  floating-Lable style end ****/
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  /***   Body style start  ***/
+  
+  html {
+      font-family: "Helvetica Neue", Helvetica, "Noto Sans", sans-serif, Arial, sans-serif;
+      font-size: 12px;
+      line-height: 1.42857143;
+      color: #949494;
+      background-color: #ffffff;
+  }
+  /***   Body style end  ***/
+  
+  
+  /***   daniel - Fork me friend - style   ***/
+  .floating-credit { position:fixed; bottom:10px;right:10px; color:#aaa; font-size:13px;font-family:arial,sans-serif; }
+  .floating-credit a { text-decoration:none; color:#000000; font-weight:bold; }
+  .floating-credit a:hover { border-bottom:1px dotted #f8f8f8; }
+  .floating-heading { position:fixed; color:#aaa; font-size:20px; font-family:arial,sans-serif; }
+  /***  daniel - Fork me friend - style  ***/

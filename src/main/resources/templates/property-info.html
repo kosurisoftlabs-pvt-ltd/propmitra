@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+  <head th:replace="includes/header :: head"></head>
+  <style>
+    .document {
+      background-color: #00ad79;
+      color: #f7f7f7;
+    }
+    a:hover {
+      color: #000000;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+  <body class="">
+    <div class="page-wrapper">
+      <div th:replace="includes/navbar :: navbar"></div>
+      <div class="main-wrapper">
+        <div class="main">
+          <div class="main-inner">
+            <div class="listing-hero">
+              <div class="listing-hero-inner">
+                <div class="container">
+                  <!--div class="listing-hero-image" style="background-image: url('/img/tmp/listing-9.jpg')"></div-->
+                  <div class="listing-hero-image" th:if="${prop.propertyBasic} != null and ${prop.propertyBasic.frontImage} != null" th:style="'background-image:url(data:'
+                                                                    + ${prop.propertyBasic.frontImage.fileType} + ';base64,' + ${prop.propertyBasic.frontImage.base64Image} + ');'"></div>
+                  <div class="listing-hero-image" th:if="${prop.propertyBasic} == null or ${prop.propertyBasic.frontImage == null}"
+                       th:style="'background-image:url(/img/tmp/default-property.jpg);'"></div>
+                  <!-- /.listing-hero-image -->
+                  <h1 th:text="${prop.propertyBasic.projectName}"> <i class="fa fa-check"></i></h1>
+                  <address th:text="${prop.propertyBasic.propLocation}"></address>
+                  <!--ul class="social">
+                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="#"><i class="fa fa-google"></i></a></li>
+                  </ul-->
+                </div>
+                <!-- /.container -->
+              </div>
+              <!-- /.listing-hero-inner -->
+            </div>
+            <!-- /.listing-hero -->
+            <div class="listing-toolbar-wrapper">
+              <div class="listing-toolbar" data-spy="affix" data-offset-top="203">
+                <div class="container">
+                  <ul class="nav">
+                  </ul>
+                  <!-- /.nav -->
+                </div>
+                <!-- /.container -->
+              </div>
+              <!-- /.listing-toolbar -->
+            </div>
+            <!-- /.listing-toolbar-wrapper -->
+            <div class="container">
+              <nav class="breadcrumb">
+                <a class="breadcrumb-item" href="/">Home</a>
+                <a class="breadcrumb-item" th:href="@{'./../properties'}">Properties</a>
+                <span class="breadcrumb-item active" th:text="${prop.propId}"></span>
+              </nav>
+              <div class="row">
+                <div class="col-md-8 col-lg-9">
+                  <div class="listing-detail-section" id="listing-detail-section-description" data-title="Description">
+                    <div class="gallery" th:if="${prop.propertyGallery} != null and ${prop.propertyGallery.attachments} != null">
+                      <div class="gallery-item" th:each="img: ${prop.propertyGallery.attachments}" th:style="'background-image:url(data:'+ ${img.fileType} + ';base64,' + ${img.base64Image} + ');'">
+                      </div>
+                    </div>
+                    <div class="gallery" th:if="${prop.propertyGallery} == null or ${prop.propertyGallery.attachments} == null">
+                      <div class="gallery-item" style="background-image: url(/img/tmp/listing-22.jpg);"></div>
+                      </div>
+                    </div>
+                    <!-- /.gallery -->
+                    <div class="row">
+                      <div class="col-md-5">
+                        <div class="overview">
+                          <h2>Listing Attributes</h2>
+                          <ul>
+                            <li><strong>Listed for</strong><span th:text="${prop.propertyBasic.rentSale}"></span></li>
+                            <li><strong>Price</strong>
+
+                              <span th:if="${prop.propertyBasic} != null and ${prop.propertyFloor} != null and ${prop.propertyBasic.rentSale} == 'Sale'">
+                                <span th:text="${prop.propertyFloor.priceSft} + ' / per sqft'"></span>
+                              </span>
+                              <span th:if="${prop.propertyBasic} != null and ${prop.propertyBasic.rentSale} == 'Rent'">
+                                <span th:text="${prop.totalValue} + ' / per mo.'"></span>
+                              </span>
+                            </li>
+                            <li><strong>Location</strong>
+                              <span th:if="${prop.propertyBasic} != null">
+                                <span th:text="${prop.propertyBasic.propLocation}"></span>
+                              </span>
+                            </li>
+                            <li><strong>Bedrooms</strong>
+                              <span th:if="${prop.propertyFloor} != null">
+                                <span th:text="${prop.propertyFloor.noBeds}"></span>
+                              </span>
+                            </li>
+                            <li><strong>Floor</strong>
+                              <span th:if="${prop.propertyFloor} != null">
+                                <span th:text="${prop.propertyFloor.floorNo} + ' out of ' + ${prop.propertyFloor.noFloors}"></span>
+                              </span>
+                            </li>
+                            <li><strong>Area</strong>
+                              <span th:if="${prop.propertyFloor} != null">
+                                <span th:text="${prop.propertyFloor.areaSft} + ' sqft'"></span>
+                              </span>
+                            </li>
+                          </ul>
+                        </div>
+                        <!-- /.overview -->
+                      </div>
+                      <!-- /.col-* -->
+                      <div class="col-md-7">
+                        <h2>Description</h2>
+                        <p th:text="${prop.propertyBasic.description}"></p>
+                      </div>
+                      <!-- /.col-* -->
+                    </div>
+                    <!-- /.row -->
+
+                  <!-- /.Basic Info -->
+                  <div class="listing-detail-section" id="listing-detail-section-basic" data-title="Basic Information">
+                    <h2>Basic Information</h2>
+                    <div class="box">
+                      <div class="box-inner">
+                        <div class="overview overview-half overview-no-margin">
+                          <ul th:if="${prop.propertyBasic.rentSale} == 'Sale'">
+                            <li><strong>Listed By</strong><span th:text="${prop.propertyBasic.postedBy}"></span></li>
+                            <li><strong>Property Age</strong><span th:text="${prop.propertyBasic.propAge}"></span></li>
+                            <li><strong>Property Type</strong><span th:text="${prop.propertyBasic.propType}"></span></li>
+                            <li><strong>Status</strong><span th:text="${prop.propertyBasic.propStatus}"></span></li>
+                            <!--<li><strong>Address</strong><span th:utext="${prop.propertyBasic.projectName} + '&lt;br /&gt;' +-->
+                            <li><strong>Address</strong><span th:utext="${prop.propertyBasic.projectName} + ', ' +
+                                                                        ${prop.propertyBasic.propLocation} + ' - ' + ${prop.propertyBasic.pinCode}"></span></li>
+                            <li><strong>Is Gated Community ?</strong><span th:text="${prop.propertyBasic.isGated}"></span></li>
+                          </ul>
+
+                          <ul th:if="${prop.propertyBasic.rentSale} == 'Rent'">
+                            <li><strong>Listed By</strong><span th:text="${prop.propertyBasic.postedBy}"></span></li>
+                            <li><strong>Lease Term</strong><span th:text="${prop.propertyBasic.leaseTerm}"></span></li>
+                            <li><strong>Advance Payment</strong><span th:text="${prop.propertyBasic.advanceAmount}"></span></li>
+                            <li><strong>Is Furnished?</strong><span th:text="${prop.propertyBasic.furnishedOrSemi}"></span></li>
+                            <li><strong>Bath Rooms</strong><span th:text="${prop.propertyBasic.noBathRooms}"></span></li>
+                            <li><strong>Land Mark</strong><span th:text="${prop.propertyBasic.landMark}"></span></li>
+                            <li><strong>Nearby Places</strong><span th:text="${prop.propertyBasic.placesNear}"></span></li>
+                            <li><strong>Address</strong><span th:utext="${prop.propertyBasic.projectName} + ', ' +
+                                                                        ${prop.propertyBasic.propLocation} + ' - ' + ${prop.propertyBasic.pinCode}"></span></li>
+                            <li><strong>Is Gated Community ?</strong><span th:text="${prop.propertyBasic.isGated}"></span></li>
+                          </ul>
+
+                        </div>
+                        <!-- /.overview -->
+                      </div>
+                      <!-- /.box-inner -->
+                    </div>
+                    <!-- /.box -->
+                  </div>
+
+                  <!-- /.listing-detail-section -->
+                  <div class="listing-detail-section" id="listing-detail-section-amenities" data-title="Amenities">
+                    <h2>Amenities</h2>
+                    <ul class="amenities" th:if="${prop.propertyAmenities}">
+                      <li class="yes" th:each="spec: ${prop.propertyAmenities.specification}" th:text="${spec}"></li>
+                      <!--li class="no">Balcony</li-->
+                    </ul>
+                  </div>
+
+                  <!-- /.Materials -->
+                  <div class="listing-detail-section" id="listing-detail-section-materials" data-title="Materials" th:if="${prop.propertyBasic.rentSale} == 'Sale'">
+                    <h2>Materials</h2>
+                    <div class="box">
+                      <div class="box-inner">
+                        <div class="overview overview-half overview-no-margin">
+                          <ul th:if="${prop.propertyMaterial}">
+                            <li><strong>Doors</strong><span th:text="${prop.propertyMaterial.doors}"></span></li>
+                            <li><strong>Windows</strong><span th:text="${prop.propertyMaterial.windows}"></span></li>
+                            <li><strong>Cupboards</strong><span th:text="${prop.propertyMaterial.cupboards}"></span></li>
+                            <li><strong>Wall Paint</strong><span th:text="${prop.propertyMaterial.wallPaint}"></span></li>
+                            <li><strong>Floor</strong><span th:text="${prop.propertyMaterial.floor}"></span></li>
+                            <li><strong>Kitchen</strong><span th:text="${prop.propertyMaterial.kitchen}"></span></li>
+                            <li><strong>Wiring</strong><span th:text="${prop.propertyMaterial.wiring}"></span></li>
+                            <li><strong>Toilet</strong><span th:text="${prop.propertyMaterial.toilet}"></span></li>
+                            <li><strong>Locks</strong><span th:text="${prop.propertyMaterial.locks}"></span></li>
+                            <li><strong>Electric Switches</strong><span th:text="${prop.propertyMaterial.electricalSwitches}"></span></li>
+                            <li><strong>Water Pipes</strong><span th:text="${prop.propertyMaterial.waterPipes}"></span></li>
+                            <li><strong>Sink</strong><span th:text="${prop.propertyMaterial.sink}"></span></li>
+                            <li><strong>Wash Basin</strong><span th:text="${prop.propertyMaterial.washBasin}"></span></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- /.nearby -->
+                  <div class="listing-detail-section" id="listing-detail-section-nearby" data-title="Nearby">
+                    <h2>Nearby Places</h2>
+                    <ul class="amenities" th:if="${prop.propertyNearby}">
+                      <li class="yes" th:each="hospital: ${prop.propertyNearby.hospitals}" th:text="${hospital}"></li>
+                    </ul>
+                    <ul class="amenities" th:if="${prop.propertyNearby}">
+                      <li class="yes" th:each="school: ${prop.propertyNearby.schools}" th:text="${school}"></li>
+                    </ul>
+                  </div>
+
+                  <!-- /.Materials -->
+                  <div class="listing-detail-section" id="listing-detail-section-bank" data-title="Home Loan" th:if="${prop.propertyBasic.rentSale} == 'Sale'">
+                    <h2>Home Loan Providers</h2>
+                    <ul class="amenities" th:if="${prop.propertyBanks}">
+                      <li class="yes" th:each="bank: ${prop.propertyBanks.selectedBanks}" th:text="${bank}"></li>
+                    </ul>
+                  </div>
+
+              </div>
+                <!-- /.col-* -->
+                <div class="col-md-4 col-lg-3">
+                  <div class="sidebar">
+                    <!--<div class="widget">
+                      <h2 class="widgettitle">Public Documents</h2>
+                      <div class="documents">
+                        <a class="document" href="#">
+                          <i class="fa fa-file-image-o"></i> <span>Image Gallery</span>
+                        </a>
+                        <a class="document" href="#">
+                          <i class="fa fa-file-excel-o"></i> <span>Detailed Pricing</span>
+                        </a>
+                        <a class="document" href="#">
+                          <i class="fa fa-file-pdf-o"></i> <span>Download Floor Plans</span>
+                        </a>
+                      </div>
+                      &lt;!&ndash; /.documents &ndash;&gt;
+                    </div>-->
+                    <div class="widget widget-background-white" style="background: #00ad79; padding: 10px; border-radius: 2px;">
+                      <div class="alert msg-alert" style="display: none;"></div>
+                      <h3 style="color: #ffffff;">Inquire Form</h3>
+                      <form id="inquiry-form">
+                        <div class="form-group" sec:authorize="isAuthenticated()">
+                          <input type="text" id="name" name="name" th:value="${#authentication.principal.name}" class="form-control" placeholder="Full name" readonly>
+                        </div>
+                        <div class="form-group" sec:authorize="!isAuthenticated()">
+                          <input type="text" id="name" name="name" class="form-control" placeholder="Full name">
+                        </div>
+                        <!-- /.form-group -->
+                        <div class="form-group" sec:authorize="isAuthenticated()">
+                          <input type="email" id="email" name="email" th:value="${#authentication.principal.email}" class="form-control" placeholder="E-mail" readonly>
+                        </div>
+                        <div class="form-group" sec:authorize="!isAuthenticated()">
+                          <input type="email" id="email" name="email" class="form-control" placeholder="E-mail"><br />
+                          <input type="password" id="password" name="password" class="form-control" placeholder="Choose Password">
+                        </div>
+                        <!-- /.form-group -->
+                        <div class="form-group" sec:authorize="isAuthenticated()">
+                          <input type="number" id="contact" name="contact" th:value="${#authentication.principal.contact}" class="form-control" placeholder="Contact Number" readonly>
+                        </div>
+                        <div class="form-group" sec:authorize="!isAuthenticated()">
+                          <input type="number" id="contact" name="contact" class="form-control" placeholder="Contact Number">
+                        </div>
+                        <!-- /.form-group -->
+                        <div class="form-group">
+                          <textarea id="message" name="message" class="form-control" rows="4" placeholder="Message"></textarea>
+                        </div>
+                        <!-- /.form-group -->
+                        <div class="form-group-btn">
+                          <button type="submit" id="bth-inquiry" class="btn btn-default btn-block">Send Message</button>
+                        </div>
+                        <!-- /.form-group-btn -->
+                      </form>
+                    </div>
+                    <!-- /.widget -->
+                  </div>
+                  <!-- /.sidebar -->
+                </div>
+                <!-- /.col-* -->
+              </div>
+              <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+          </div>
+          <!-- /.main-inner -->
+        </div>
+        <!-- /.main -->
+      </div>
+      <!-- /.main-wrapper -->
+    </div>
+    <!-- /.page-wrapper -->
+    <br />
+    <br />
+    <br />
+
+    <div th:replace="includes/footer :: footer"></div>
+    <script th:inline="javascript">
+      $(document).ready(function () {
+        $('#inquiry-form').validate({ // initialize the plugin
+          rules: {
+              email: {
+                  required: true,
+                  email: true
+              },
+              password : {
+                required: true,
+                minlength: 5,
+                maxlength: 20
+              },
+              name: {
+                  required: true,
+                  minlength: 4
+              },
+              message: {
+                  required: true,
+                  minlength: 6
+              },
+              contact: {
+                  required: true,
+                  minlength: 10,
+                  maxlength: 10
+              }
+            },
+            submitHandler: function (form) {
+                //event.preventDefault();
+                $("body").addClass("loading");
+                var passwd = $("#password").val();
+                if(passwd != undefined && passwd != null) {
+                  var signupForm = {}
+                  signupForm["name"] = $("#name").val();
+                  signupForm["email"] = $("#email").val();
+                  signupForm["contact"] = $("#contact").val();
+                  signupForm["password"] = $("#password").val();
+                  $.ajax({
+                      type: "POST",
+                      url: "/api/auth/signup",
+                      contentType: "application/json",
+                      dataType: "json",
+                      data: JSON.stringify(signupForm),
+                      //async: false,
+                      success: function(data) {
+                         if (data != null && data != undefined) {
+                         $("body").removeClass("loading");
+                          $('.msg-alert').fadeIn().addClass('alert-info').text("User registration successful. Submitting inquiry...").delay(5000).fadeOut();
+                          submitInquiry();
+                         }
+                      },
+                      error: function (e) {
+                          $("body").removeClass("loading");
+                          if(e.responseJSON != null) {
+                              $('.msg-alert').fadeIn().addClass('alert-danger').text(e.responseJSON.message).delay(5000).fadeOut();
+                          } else {
+                              $('.msg-alert').fadeIn().addClass('alert-danger').text('Oops... something went wrong. Please try after sometime.').delay(5000).fadeOut();
+                          }
+                      }
+                  });
+                } else {
+                  submitInquiry();
+                }
+
+            }
+        });
+
+      });
+
+      function submitInquiry() {
+        $("body").addClass("loading");
+        var prop = [[${prop}]];
+        var formData = {
+          pid: prop.id,
+          name : $("#name").val(),
+          email :  $("#email").val(),
+          contact :  $("#contact").val(),
+          message :  $("#message").val(),
+        };
+        $.ajax({
+          type : "POST",
+          contentType : "application/json",
+          url : "/api/notify/inquiry",
+          data : JSON.stringify(formData),
+          dataType : 'json',
+          success : function(result) {
+            //console.log('result', result.status);
+            if(result.status == '200') {
+              $('.msg-alert').fadeIn().addClass('alert-info').text(result.message).delay(5000).fadeOut();
+            } else {
+              $('.msg-alert').fadeIn().addClass('alert-danger').text(result.message).delay(5000).fadeOut();
+            }
+            $('#inquiry-form')[0].reset();
+            $("body").removeClass("loading");
+          },
+          error : function(e) {
+            $('.msg-alert').addClass('alert-danger').text("Something went wrong... Please try after sometime.").delay(5000).fadeOut();
+            $('#inquiry-form')[0].reset();
+            $("body").removeClass("loading");
+            console.log("ERROR: ", e);
+          }
+        });
+      }
+    </script>
+    <div class="modal"></div>
+  </body>
+</html>

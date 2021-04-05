@@ -1,0 +1,132 @@
+<div th:fragment="sidebar">
+    <div class="sidebar">
+        <div class="filter">
+            <form id="filterForm">
+            <h3>Filters</h3>
+            <input type="text" class="filters" style="border: none;" readonly/>
+            <div class="form-group">
+                <h2>Keyword</h2>
+                <div class="ui-widget">
+                    <input type="text" class="form-control" id="keywords" placeholder="Search by keyword ...">
+                </div>
+            </div>
+            <!-- /.form-group -->
+            <div class="form-group">
+                <h2>Location</h2>
+                <input id="location" name="location" class="form-control"
+                       placeholder="Enter Location" type="text" />
+                <!--<select class="form-control"  name="location" id="location">
+                    <option th:value="select"  selected="selected" > &#45;&#45; City &#45;&#45;</option>
+                    <option th:each="loc : ${meta.locations}" th:value="${loc}"
+                            th:text="${loc}"></option>-->
+                    <!--option th:value="Hyderabad">Hyderabad</option>
+                    <option th:value="Vijayawada">Vijayawada</option>
+                    <option th:value="Chennai">Chennai</option>
+                    <option th:value="Bangalore">Bangalore</option-->
+                </select>
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+                <h2 style="margin-bottom: 10px;">Price Range</h2>
+                <!--div id="slider" class="price-slider"></div-->
+                <input type="text" id="amount" readonly
+                       style="border:0; color:#00ad79; margin-bottom: 10px; text-align: center; font-weight: 600;">
+                <!--div id="slider-range"></div-->
+                <div id="slider" style="border: 1px solid #e5e5e5;"></div>
+            </div>
+
+            <!-- BHK group -->
+            <div class="form-group">
+                <h2 style="padding-top: 30px;">Listing Type</h2>
+                <div class="checkbox">
+                    <label><input type="radio" name="rentOrSale" value="Sale"  th:checked="${meta.rentSale} == 'Sale'"> Sale <!--span class="label">93</span--></label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="radio" name="rentOrSale" value="Rent"  th:checked="${meta.rentSale} == 'Rent'"> Rent <!--span class="label">93</span--></label>
+                </div>
+            </div>
+
+            <!-- BHK group -->
+            <div class="form-group">
+                <h2>No. of Bed Rooms</h2>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="bhk1" value="1 BHK"> 1 BHK <!--span class="label">93</span--></label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="bhk2" value="2 BHK"> 2 BHK <!--span class="label">93</span--></label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="bhk3" value="3 BHK"> 3 BHK <!--span class="label">93</span--></label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="bhk4" value="4 BHK"> 4 BHK <!--span class="label">93</span--></label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="bhk5" value="5 BHK"> 5 BHK <!--span class="label">93</span--></label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="bhk6" value="6 BHK"> 6 BHK <!--span class="label">93</span--></label>
+                </div>
+            </div>
+            <!-- /.BHK group -->
+
+            <!-- Property Type group -->
+            <div class="form-group">
+                <!--fieldset-->
+                <h2>Property Type</h2>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="type1" value="Commercial"> Commercial <!--span class="label">93</span--></label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="type2" value="Residential"> Residential <!--span class="label">93</span--></label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="type3" value="Agricultural Land"> Agricultural Land <!--span class="label">93</span--></label>
+                </div>
+                <!--/fieldset-->
+            </div>
+            <!-- /.Property Type group -->
+
+            <!-- Property Status group -->
+            <div class="form-group">
+                <!--fieldset-->
+                <h2>Property Status</h2>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="status1" value="Resale"> Resale <!--span class="label">93</span--></label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="status2" value="Upcoming"> Upcoming <!--span class="label">93</span--></label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="status3" value="Under Construction"> Under Construction <!--span class="label">93</span--></label>
+                </div>
+                <!--/fieldset-->
+            </div>
+            <!-- /.Property Status group -->
+
+            <!-- Listed By group -->
+            <div class="form-group">
+                <h2>Listed By</h2>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="postBy1" value="Agent"> Agent <!--span class="label">93</span--></label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="postBy2" value="Property Owner"> Property Owner <!--span class="label">93</span--></label>
+                </div>
+                <div class="checkbox">
+                    <label><input type="checkbox" id="postBy3" value="Developer"> Developer <!--span class="label">93</span--></label>
+                </div>
+            </div>
+            <div style="height: 40px;"></div>
+            <!-- /.Listed By group -->
+            <div class="form-group-btn form-group-btn-placeholder-gap">
+                <button type="submit" class="btn btn-primary btn-block">Apply Filters</button>
+            </div>
+            <!-- /.form-group -->
+            </form>
+        </div>
+        <!-- /.filter -->
+    </div>
+    <!-- /.sidebar -->
+</div>

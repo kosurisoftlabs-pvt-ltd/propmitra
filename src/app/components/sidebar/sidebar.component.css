@@ -1,0 +1,45 @@
+.nav-link[data-toggle].collapsed>p:after {
+    content: "▾";
+    position: absolute;
+    font-size: 28px;
+    color: #87909c;
+}
+.nav-link[data-toggle]:not(.collapsed)>p:after {
+    content: "▴";
+    position: absolute;
+    font-size: 28px;
+    color: #87909c;
+}
+
+li.active > a {
+    background-color: #2196f3;
+    box-shadow: none;
+    color: #fff;
+}
+
+li.active > a.nav-sub-a {
+    background-color: #2196f3;
+    box-shadow: none;
+    color: #fff;
+}
+
+li.active > a > i, li.active > a > p {
+    color: #fff !important;
+}
+
+.nav p {
+    color: #333;
+    font-weight: 500;
+}
+
+.nav li.active > [data-toggle="collapse"] {
+    background-color: #2196f3;
+    color: #fff;
+    box-shadow: none;
+}
+
+
+
+/*.sidebar .nav.pl-2 {
+    margin-top: 10px;
+}*/

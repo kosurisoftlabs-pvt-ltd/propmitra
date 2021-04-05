@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="includes/header :: head"></head>
+<style>
+    .error {
+      color: red;
+    }
+
+    .gallery-item {
+        height: 370px;
+    }
+    .ui-widget-header {
+        background: #323232;
+    }
+
+    .pac-container {
+        z-index: 1051 !important;
+    }
+
+</style>
+<script>
+    function initMap() {
+        initialize();
+    }
+    var autocomplete;
+    function initialize() {
+      //types - geocode, establishment, address, (regions), (cities)
+      autocomplete = new google.maps.places.Autocomplete(
+          /** @type {HTMLInputElement} */(document.getElementById('location')),
+          { types: ['geocode'], componentRestrictions: {country: "IN"} });
+      google.maps.event.addListener(autocomplete, 'place_changed', function() {
+      });
+    }
+</script>
+<body>
+<div class="page-wrapper">
+    <div th:replace="includes/navbar :: navbar"></div>
+    <div class="gallery">
+        <div class="gallery-item" style="background-image: url(images/banner-bg.jpg);">
+        </div>
+        <!-- /.gallery-item -->
+        <div class="gallery-item" style="background-image: url(images/banner-bg2.jpg);">
+        </div>
+        <!-- /.gallery-item -->
+        <div class="gallery-item" style="background-image: url(images/banner-bg3.jpg);">
+        </div>
+        <!-- /.gallery-item -->
+    </div>
+    <!-- /.gallery -->
+    <div class="map-wrapper mb80">
+        <div class="map-filter-horizontal-wrapper">
+            <div class="container">
+                <div class="map-filter-horizontal">
+                    <form th:action="@{/properties}" id="searchForm">
+                        <input type="hidden" name="minPrice" id="minPrice"/>
+                        <input type="hidden" name="maxPrice" id="maxPrice"/>
+                        <div class="row">
+                            <div class="col-sm-3 form-group">
+                                <select class="form-control form-control-no-border" name="rentOrSale" id="rentOrSale">
+                                    <option value=""> -- Select Type --</option>
+                                    <option th:value="Sale" selected="selected">Buy</option>
+                                    <option th:value="Rent">Rent</option>
+                                </select>
+                            </div>
+                            <!-- /.form-group -->
+                            <div class="col-sm-3 form-group">
+                                <select class="form-control form-control-no-border" name="propType" id="propType">
+                                    <option value="" selected="selected"> -- Property Type --</option>
+                                    <option th:each="ptype : ${meta.propTypes}" th:value="${ptype}"
+                                            th:text="${ptype}">
+                                    </option>
+                                </select>
+                            </div>
+                            <!-- /.form-group -->
+                            <div class="col-sm-3 form-group">
+                                <input id="location" name="location" class="form-control form-control-no-border"
+                                       placeholder="Enter Location" type="text"></input>
+                            </div>
+                            <!--<div class="col-sm-3 form-group">
+                                <select class="form-control form-control-no-border" name="location" id="location">
+                                    <option value="" selected="selected"> &#45;&#45; Select City &#45;&#45;</option>
+                                    <option th:each="loc : ${meta.locations}" th:value="${loc}"
+                                            th:text="${loc}">
+                                    </option>
+                                </select>
+                            </div>-->
+                            <!-- /.form-group -->
+                            <!--<div class="col-sm-4 form-group">
+                                <select class="form-control form-control-no-border" name="propStatus" id="propStatus">
+                                    <option value="" selected="selected"> &#45;&#45; Property Status &#45;&#45;</option>
+                                    <option th:each="pstatus : ${meta.propStatuses}" th:value="${pstatus}"
+                                            th:text="${pstatus}">
+                                    </option>
+                                </select>
+                            </div>-->
+                            <!-- /.form-group -->
+                            <!--<div class="col-sm-4 form-group">
+                                <input type="text" id="amount" readonly
+                                       style="border: 0;color: #fff;margin-bottom: 0px;text-align: center;font-weight: 600;background: none;">
+                                <div id="slider" style="border: 1px solid #e5e5e5;"></div>
+                            </div>-->
+                            <!-- /.form-group -->
+                            <div class="col-sm-3">
+                                <button type="submit" class="btn btn-block btn-lg">Filter Listings</button>
+                            </div>
+                            <!-- /.col-->
+                        </div>
+                        <!-- /.row -->
+                    </form>
+                </div>
+                <!-- /.map-filter -->
+            </div>
+            <!-- /.container -->
+        </div>
+    </div>
+    <!-- /.map-wrapper -->
+    <div class="main-wrapper">
+        <div class="main">
+            <div class="main-inner">
+                <div class="container">
+                    <div class="content">
+                        <div class="listing-tabs mt-80">
+                            <div class="listing-tabs-header">
+                                <h2>Search for the <strong>best properties</strong></h2>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#tab-all" data-toggle="tab">All Properties</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#tab-rent" data-toggle="tab">For Rent</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#tab-sale" data-toggle="tab">For Sale</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- /.listing-tabs-headser -->
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tab-all" role="tabpanel">
+                                    <div class="listing-boxes">
+                                    </div>
+                                    <!-- /.listing-boxes -->
+                                </div>
+                                <!-- /.tab-pane -->
+                                <div class="tab-pane" id="tab-rent" role="tabpanel">
+                                    <div class="listing-boxes">
+                                    </div>
+                                    <!-- /.listing-boxes -->
+                                </div>
+                                <!-- /.tab-pane -->
+                                <div class="tab-pane" id="tab-sale" role="tabpanel">
+                                    <div class="listing-boxes">
+                                    </div>
+                                    <!-- /.listing-boxes -->
+                                </div>
+                                <!-- /.tab-pane -->
+                            </div>
+                            <!-- /.listing-tabs-content -->
+                        </div>
+                        <!-- /.listing-tabs -->
+                        <div class="testimonials-wrapper">
+                            <div class="row">
+                                <div class="col-lg-7 push-lg-2">
+                                    <div class="testimonials">
+                                        <div class="testimonial-inner">
+                                            <blockquote>
+                                                Aenean porta sem a nulla vehicula commodo. Quisque eleifend mollis
+                                                tincidunt. Phasellus purus leo, facilisis in egestas non, gravida non
+                                                felis. Nullam sit amet vestibulum leo.
+                                            </blockquote>
+                                            <div class="testimonial-user">
+                                                <span class="testimonial-user-avatar"
+                                                      style="background-image: url('img/tmp/user-1.jpg');"></span>
+                                                <span class="testimonial-user-name">
+                              <strong>Barbara B. Reid</strong>
+                              <span>CEO at Super Company</span>
+                            </span>
+                                            </div>
+                                            <!-- /.testimonial-user -->
+                                        </div>
+                                        <!-- /.testimonial-inner -->
+                                        <div class="testimonial-inner">
+                                            <blockquote>
+                                                Aenean porta sem a nulla vehicula commodo. Quisque eleifend mollis
+                                                tincidunt. Phasellus purus leo, facilisis in egestas non, gravida non
+                                                felis. Nullam sit amet vestibulum leo.
+                                            </blockquote>
+                                            <div class="testimonial-user">
+                                                <span class="testimonial-user-avatar"
+                                                      style="background-image: url('img/tmp/user-2.jpg');"></span>
+                                                <span class="testimonial-user-name">
+                              <strong>Barbara B. Reid</strong>
+                              <span>CEO at Super Company</span>
+                            </span>
+                                            </div>
+                                            <!-- /.testimonial-user -->
+                                        </div>
+                                        <!-- /.testimonial-inner -->
+                                        <div class="testimonial-inner">
+                                            <blockquote>
+                                                Aenean porta sem a nulla vehicula commodo. Quisque eleifend mollis
+                                                tincidunt. Phasellus purus leo, facilisis in egestas non, gravida non
+                                                felis. Nullam sit amet vestibulum leo.
+                                            </blockquote>
+                                            <div class="testimonial-user">
+                                                <span class="testimonial-user-avatar"
+                                                      style="background-image: url('img/tmp/user-3.jpg');"></span>
+                                                <span class="testimonial-user-name">
+                              <strong>Barbara B. Reid</strong>
+                              <span>CEO at Super Company</span>
+                            </span>
+                                            </div>
+                                            <!-- /.testimonial-user -->
+                                        </div>
+                                        <!-- /.testimonial-inner -->
+                                        <div class="testimonial-inner">
+                                            <blockquote>
+                                                Aenean porta sem a nulla vehicula commodo. Quisque eleifend mollis
+                                                tincidunt. Phasellus purus leo, facilisis in egestas non, gravida non
+                                                felis. Nullam sit amet vestibulum leo.
+                                            </blockquote>
+                                            <div class="testimonial-user">
+                                                <span class="testimonial-user-avatar"
+                                                      style="background-image: url('img/tmp/user-4.jpg');"></span>
+                                                <span class="testimonial-user-name">
+                              <strong>Barbara B. Reid</strong>
+                              <span>CEO at Super Company</span>
+                            </span>
+                                            </div>
+                                            <!-- /.testimonial-user -->
+                                        </div>
+                                        <!-- /.testimonial-inner -->
+                                        <div class="testimonial-inner">
+                                            <blockquote>
+                                                Aenean porta sem a nulla vehicula commodo. Quisque eleifend mollis
+                                                tincidunt. Phasellus purus leo, facilisis in egestas non, gravida non
+                                                felis. Nullam sit amet vestibulum leo.
+                                            </blockquote>
+                                            <div class="testimonial-user">
+                                                <span class="testimonial-user-avatar"
+                                                      style="background-image: url('img/tmp/user-5.jpg');"></span>
+                                                <span class="testimonial-user-name">
+                              <strong>Barbara B. Reid</strong>
+                              <span>CEO at Super Company</span>
+                            </span>
+                                            </div>
+                                            <!-- /.testimonial-user -->
+                                        </div>
+                                        <!-- /.testimonial-inner -->
+                                    </div>
+                                    <!-- /.testimonials -->
+                                </div>
+                                <!-- /.col-* -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                        <!-- /.testimonials-wrapper  -->
+                        <div class="row">
+                            <div class="col-lg-7 push-lg-2">
+                                <section id="contactUs">
+                                    <h2 class="text-center">Contact Us</h2>
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m23!1m12!1m3!1d3805.3290666919165!2d78.3914594649663!3d17.491798238016088!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m8!3e6!4m0!4m5!1s0x3bcb918d306665ad%3A0x26d40a8ce511aaed!2sManjeera+Majestic+Commercial%2C+JNTU+Rd%2C+Kukatpally+Housing+Board+Colony%2C+Kukatpally%2C+Hyderabad%2C+Telangana+500072!3m2!1d17.4916519!2d78.3935546!5e0!3m2!1sen!2sin!4v1521007588246"
+                                            width="600" height="340" frameborder="0" style="border:0; min-height:340px !important; border-radius: 6px;
+                    border: 2px solid #f5f5f5;" allowfullscreen></iframe>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.content -->
+                </div>
+                <!-- /.container -->
+            </div>
+            <!-- /.main-inner -->
+        </div>
+        <!-- /.main -->
+    </div>
+    <!-- /.main-wrapper -->
+    <br /><br />
+    <div th:replace="includes/footer :: footer"></div>
+    <script type="text/javascript" src="/js/index.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBE49eJ-hTzLNA7IKZ2DOnW-4BBHDzDXlA&libraries=places&region=in&callback=initMap"
+    ></script>
+    <script th:inline="javascript">
+        /*$( function() {
+            var meta = [[${meta}]];
+            applyMeta(meta);
+            $('#rentOrSale').on('change', function() {
+                window.location.href = '/?rentSale='+this.value;
+            });
+        });*/
+        $(document).ready(function () {
+            $('#searchForm').validate({ // initialize the plugin
+              rules: {
+                  propType : {
+                    required: true
+                  },
+                  rentOrSale : {
+                    required: true
+                  },
+                  location : {
+                    required: true
+                  }
+                },
+                submitHandler: function (form) {
+                  $("body").addClass("loading");
+                  form.submit();
+                }
+            });
+        });
+    </script>
+    <!-- /.page-wrapper -->
+    <div class="modal"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<div *ngIf="isViewRequest else submitForm;">
+  <form [formGroup]="bankLoanForm" enctype="multipart/form-data" (ngSubmit)="submitBanksSelected()">
+    <div class="row" style="margin-top: 30px; margin-bottom: 30px;">
+      <div class="col-md-4 col-xs-12" formArrayName="banks"
+        *ngFor="let order of bankLoanForm.get('banks')['controls']; let i = index">
+        <mat-checkbox [formControlName]="i" labelPosition="after" [disabled]=true [(ngModel)]="banks[i].selected">
+          {{banks[i].name}}
+        </mat-checkbox>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+          <button type="button" mat-button matStepperPrevious class="btn btn-danger btn-sm">&lt;&lt; Previous</button>
+        </div>        
+      </div>
+  </form>
+</div>
+<ng-template #submitForm>
+  <form [formGroup]="bankLoanForm" enctype="multipart/form-data" (ngSubmit)="submitBanksSelected()">
+    <div class="row" style="margin-top: 30px; margin-bottom: 30px;">
+      <div class="col-md-4 col-xs-12" formArrayName="banks"
+        *ngFor="let order of bankLoanForm.get('banks')['controls']; let i = index">
+        <mat-checkbox [formControlName]="i" labelPosition="after" [(ngModel)]="banks[i].selected">{{banks[i].name}}
+        </mat-checkbox>
+      </div>
+    </div>
+    <!--div *ngIf="selectedBanks.length == 0">At least one bank must be selected</div-->
+    <div class="row">
+      <div class="row">
+        <div class="col-sm-3">
+          <button type="button" mat-button matStepperPrevious class="btn btn-danger btn-sm">&lt;&lt; Previous</button>
+        </div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-4">
+          <button class="btn btn-sm btn-info" type="submit" mat-button>Submit</button>
+          <a class="btn btn-sm btn-default" href="/property-list" mat-button>Cancel</a>
+        </div>
+        <div class="col-sm-3"></div>
+      </div>
+    </div>
+  </form>
+</ng-template>

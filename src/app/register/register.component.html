@@ -1,0 +1,259 @@
+<style>
+    .navbar .collapse .navbar-nav .nav-item.active > a{
+      border-bottom: 2px solid #8fc843;
+      border-radius: 0px;
+    }
+    .navbar .collapse .navbar-nav .nav-item {
+      padding-right: 10px;
+    }
+    .navbar .collapse .navbar-nav .nav-item .nav-link {
+      color: #86bd2e;
+        font-size: 1.1em;
+        padding: 6px 0px !important;
+        border-radius: 5px;
+        font-family: 'Oswald', sans-serif;
+        font-weight: 400;
+        text-transform: none;
+    }
+  </style>
+  <nav class="navbar navbar-expand-lg  ">
+    <div class="container" style="box-shadow: none; border-radius: 0;">
+        <div class="navbar-wrapper">
+          <a class="navbar-brand" style="min-height: 40px;margin-bottom: 10px;" href="#"><img src="assets/img/Pro1.png" width="100%" /></a>
+        </div> 
+        <button mat-raised-button class="navbar-toggler" type="button">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navigation">
+            <ul class="navbar-nav">
+                <li class="nav-item" id="link1"><a class="nav-link" href="https://propmitra.com">Home</a></li>
+                <li class="nav-item" id="link2"><a class="nav-link" href="https://propmitra.com#work">Projects</a></li>
+                <li class="nav-item active" id="link3"><a class="nav-link" href="/register">Registration</a></li>
+                <li class="nav-item" id="link4"><a class="nav-link" href="/login">Login</a></li>
+                <li class="nav-item" id="link5"><a class="nav-link" href="https://propmitra.com#contactUs">Contact Us</a></li>
+            </ul>
+        </div>
+    </div>
+  </nav>
+<section class="login-block">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <div class="container-reg">
+    <div class="row">
+        <div class="col-md-1"></div>
+      <div class="col-md-10 login-sec">
+        <h2 class="text-center">
+            <!--br />Register Now<br /-->
+          <i class="material-icons" style="font-size: 5em;color: #8cc63f;">account_circle</i> 
+        </h2>        
+        <form class="register-form" novalidate [formGroup]="registerform">
+          <!-- First Row-->
+          <div class="row">
+            <div class="col-md-6">
+              <div class="floating-form">
+                <div class="floating-label">
+                  <div class="form-group" [ngClass]="{ 
+                        'has-danger': name.invalid && (name.dirty || name.touched),
+                        'has-success': name.valid && (name.dirty || name.touched)}">
+                    <input type="text" class="form-control floating-input" placeholder=" " formControlName="name"
+                      required><br />
+                    <span class="highlight"></span>
+                    <label>Full Name</label>
+                    <div class="form-control-feedback" *ngIf="name.errors && (name.dirty || name.touched)">
+                      <p *ngIf="name.errors.required">Full Name is required</p>
+                      <p *ngIf="name.errors.pattern">Please enter valid name between 4 and 40 characters</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="floating-form">
+                <div class="floating-label">
+                  <div class="form-group" [ngClass]="{ 
+                          'has-danger': contact.invalid && (contact.dirty || contact.touched),
+                          'has-success': contact.valid && (contact.dirty || contact.touched)}">
+                    <input type="text" class="form-control floating-input" placeholder=" " formControlName="contact"
+                      required><br />
+                    <span class="highlight"></span>
+                    <label>Contact Number</label>
+                    <div class="form-control-feedback" *ngIf="contact.errors && (contact.dirty || contact.touched)">
+                      <p *ngIf="contact.errors.required">Contact Number is required</p>
+                      <p *ngIf="contact.errors.pattern">Please enter 10 digit contact number</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--Row 2-->
+          <div class="row">
+              <div class="col-md-6">
+                <div class="floating-form">
+                  <div class="floating-label">
+                    <div class="form-group" [ngClass]="{ 
+                          'has-danger': username.invalid && (username.dirty || username.touched),
+                          'has-success': username.valid && (username.dirty || username.touched)}">
+                      <input type="text" class="form-control floating-input" placeholder=" " formControlName="username"
+                        required><br />
+                      <span class="highlight"></span>
+                      <label>User Name</label>
+                      <div class="form-control-feedback" *ngIf="username.errors && (username.dirty || username.touched)">
+                        <p *ngIf="username.errors.required">User Name is required</p>
+                        <p *ngIf="username.errors.pattern">Please enter valid user name between 4 and 15 characters</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="floating-form">
+                  <div class="floating-label">
+                    <div class="form-group" [ngClass]="{ 
+                            'has-danger': password.invalid && (password.dirty || password.touched),
+                            'has-success': password.valid && (password.dirty || password.touched)}">
+                      <input type="password" class="form-control floating-input" placeholder=" " formControlName="password"
+                        required><br />
+                      <span class="highlight"></span>
+                      <label>Password</label>
+                      <div class="form-control-feedback" *ngIf="password.errors && (password.dirty || password.touched)">
+                        <p *ngIf="password.errors.required">Password is required</p>
+                        <p *ngIf="password.errors.pattern">Please enter valid password between 6 and 20 characters</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="row">
+                <div class="col-md-6">
+                  <div class="floating-form">
+                    <div class="floating-label">
+                      <div class="form-group" [ngClass]="{ 
+                            'has-danger': email.invalid && (email.dirty || email.touched),
+                            'has-success': email.valid && (email.dirty || email.touched)}">
+                        <input type="text" class="form-control floating-input" placeholder=" " formControlName="email"
+                          required><br />
+                        <span class="highlight"></span>
+                        <label>Email Id</label>
+                        <div class="form-control-feedback" *ngIf="email.errors && (email.dirty || email.touched)">
+                          <p *ngIf="email.errors.required">Email is required</p>
+                          <p *ngIf="email.errors.pattern">Please enter valid email address</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="floating-form">
+                    <div class="floating-label">
+                      <div class="form-group" [ngClass]="{ 
+                              'has-danger': city.invalid && (city.dirty || city.touched),
+                              'has-success': city.valid && (city.dirty || city.touched)}">
+                        <input type="text" class="form-control floating-input" placeholder=" " formControlName="city"
+                          required><br />
+                        <span class="highlight"></span>
+                        <label>City</label>
+                        <div class="form-control-feedback" *ngIf="city.errors && (city.dirty || city.touched)">
+                          <p *ngIf="city.errors.required">City Name is required</p>
+                          <p *ngIf="city.errors.pattern">Please enter valid city name between 4 and 25 characters</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Row 4 -->
+              <div class="row">
+                  <div class="col-md-6">
+                    <div class="floating-form">
+                      <div class="floating-label">
+                        <div class="form-group" [ngClass]="{ 
+                              'has-danger': address.invalid && (address.dirty || address.touched),
+                              'has-success': address.valid && (address.dirty || address.touched)}">
+                          <textarea class="floating-input floating-textarea" placeholder=" " formControlName="address"
+                          required></textarea><br />
+                          <span class="highlight"></span>
+                          <label>Address</label>
+                          <div class="form-control-feedback" *ngIf="address.errors && (address.dirty || address.touched)">
+                            <p *ngIf="address.errors.required">Address is required</p>
+                            <p *ngIf="address.errors.pattern">Please enter valid address between 4 and 250 characters</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input">
+                    <small></small>
+                  </label>                  
+                  <button class="btn btn-danger float-right" type="reset">Reset</button>
+                  <button class="btn btn-info float-right" (click)="register()">Register</button>
+                </div>                
+        </form>        
+      </div>
+    </div>
+    <div style="height: 10px;"></div>
+  </div>
+  </div>  
+</div>
+</div>
+</section>
+
+<!--
+  <div class="floating-form">
+          <div class="floating-label">
+            <input class="floating-input" type="text" placeholder=" ">
+            <span class="highlight"></span>
+            <label>Text</label>
+          </div>
+
+          <div class="floating-label">
+            <input class="floating-input" type="text" onclick="(this.type='time')" placeholder=" ">
+            <span class="highlight"></span>
+            <label>Time</label>
+          </div>
+
+          <div class="floating-label">
+            <input class="floating-input" type="text" onclick="(this.type='date')" placeholder=" ">
+            <span class="highlight"></span>
+            <label>Date</label>
+          </div>
+          <div class="floating-label">
+            <input class="floating-input" type="password" placeholder=" ">
+            <span class="highlight"></span>
+            <label>Password</label>
+          </div>
+          <div class="floating-label">
+            <select class="floating-select" onclick="this.setAttribute('value', this.value);" value="">
+              <option value=""></option>
+              <option value="1">Alabama</option>
+              <option value="2">Boston</option>
+              <option value="3">Ohaio</option>
+              <option value="4">New York</option>
+              <option value="5">Washington</option>
+            </select>
+            <span class="highlight"></span>
+            <label>Select</label>
+          </div>
+
+          <div class="floating-label">
+            <textarea class="floating-input floating-textarea" placeholder=" "></textarea>
+            <span class="highlight"></span>
+            <label>Textarea</label>
+          </div>
+
+        </div>
+      </div>
+-->

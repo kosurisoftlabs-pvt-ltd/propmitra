@@ -1,0 +1,82 @@
+<div *ngIf="isViewRequest else submitForm;">
+  <div class="row">
+    <div class="col-md-8 col-xs-12">
+      <h4>Image Gallery</h4>
+      <ngx-gallery *ngIf="galleryModel.attachments != null && galleryModel.attachments.length > 0 else noGallery"
+        [options]="galleryOptions" [images]="imageGallery"></ngx-gallery>
+      <ng-template #noGallery>
+        <p>No images found for this property!!</p>
+      </ng-template>
+    </div>
+    <div class="col-md-12 col-xs-12">
+        <div class="row">
+          <div class="col-sm-6">
+            <button type="button" mat-button matStepperPrevious class="btn btn-danger btn-sm">&lt;&lt; Previous</button>
+          </div>
+          <div class="col-sm-6">
+            <button type="button" [disabled]="!isGalleryCompleted" mat-button matStepperNext
+              class="btn btn-primary btn-sm float-right">
+              Next &gt;&gt;</button>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+<ng-template #submitForm>
+  <form [formGroup]="galleryForm" enctype="multipart/form-data" (ngSubmit)="submitGallery()">
+    <div class="row">
+      <div class="col-md-8 col-xs-12">
+        <h4>Image Gallery</h4>
+        <ngx-gallery *ngIf="galleryModel.attachments != null && galleryModel.attachments.length > 0 else noGallery"
+          [options]="galleryOptions" [images]="imageGallery"></ngx-gallery>
+        <ng-template #noGallery>
+          <p>No images found. Upload now!</p>
+        </ng-template>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="col-md-12 col-xs-12">
+          <input formControlName="document" type="file" ng2FileSelect accept="image/*" [uploader]="uploader"
+            multiple /><br />
+        </div>
+        <div class="col-md-12 col-xs-12">
+          <table class="table">
+            <thead>
+              <tr>
+                <th width="10%"></th>
+                <th width="90%"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of uploader.queue">
+                <th class="text-center" width="10%">
+                  <mat-icon (click)="item.remove()">delete</mat-icon>
+                </th>
+                <th width="90%">
+                  {{ item.file.name}}<br />
+                  <p>({{item.file.size/1000000}} MB)</p>
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-md-12 col-xs-12">
+        <div class="row">
+          <div class="col-sm-3">
+            <button type="button" mat-button matStepperPrevious class="btn btn-danger btn-sm">&lt;&lt; Previous</button>
+          </div>
+          <div class="col-sm-2"></div>
+          <div class="col-sm-4">
+            <button class="btn btn-sm btn-info" type="submit" mat-button>Submit</button>
+            <a class="btn btn-sm btn-default" href="/property-list" mat-button>Cancel</a>
+          </div>
+          <div class="col-sm-3">
+            <button type="button" [disabled]="!isGalleryCompleted" mat-button matStepperNext
+              class="btn btn-primary btn-sm float-right">
+              Next &gt;&gt;</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

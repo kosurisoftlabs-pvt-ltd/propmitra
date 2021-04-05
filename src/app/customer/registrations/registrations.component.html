@@ -1,0 +1,80 @@
+<div class="main-content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12 col-xs-12">
+          <div class="card">
+            <div class="card-header card-header-danger">
+              <h4 class="card-title ">Customer Registrations</h4>
+              <p class="card-category">Registrations awaiting for approval. Decide yourself to approve or reject them!!</p>
+            </div>            
+            <div class="row" style="margin-top: 20px;">
+              <div class="col-md-12">
+                <div class="text-center text-default" *ngIf="userList == undefined"><h5>No new registrations found.</h5></div>
+                <div class="text-center text-default" *ngIf="userList != undefined && userList.length == 0">
+                  <h5>No new registrations found.</h5>
+                </div>
+                <div *ngIf="userList != undefined && userList.length > 0">
+                  <form [formGroup]="userForm" enctype="multipart/form-data" style="margin-top: 20px;">
+                    <table mat-table [dataSource]="dataSource" formArrayName="userChks">
+                      <!-- Checkbox Column -->
+                      <ng-container matColumnDef="userIdChk">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let element; let i = index;">
+                          <mat-checkbox [formControlName]="i"></mat-checkbox>
+                        </td>
+                      </ng-container>
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> Full Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                      </ng-container>
+  
+                      <!-- Contact Column -->
+                      <ng-container matColumnDef="contact">
+                        <th mat-header-cell *matHeaderCellDef> Contact </th>
+                        <td mat-cell *matCellDef="let element"> {{element.contact}} </td>
+                      </ng-container>
+  
+                      <!-- Email Column -->
+                      <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef> Email </th>
+                        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                      </ng-container>
+
+                      <!-- username Column -->
+                      <ng-container matColumnDef="username">
+                          <th mat-header-cell *matHeaderCellDef> User Name </th>
+                          <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+                        </ng-container>
+
+                        <!-- city Column -->
+                      <ng-container matColumnDef="city">
+                          <th mat-header-cell *matHeaderCellDef> City </th>
+                          <td mat-cell *matCellDef="let element"> {{element.city}} </td>
+                        </ng-container>
+
+                        <!-- isActive Column -->
+                      <ng-container matColumnDef="isActive">
+                          <th mat-header-cell *matHeaderCellDef> Status </th>
+                          <td mat-cell *matCellDef="let element">
+                            Awaiting Approval
+                          </td>
+                        </ng-container>
+                      
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <div class="col-md-4 col-xs-12">                      
+                      <div *ngIf="!isUserSelected" style="color: red;">At least one user must be selected</div>
+                      <button class="btn btn-info" (click)="approve()" mat-button>Approve</button>
+                      <button class="btn btn-danger" (click)="reject()" mat-button>Reject</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

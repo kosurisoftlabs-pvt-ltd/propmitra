@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+                      xmlns:th="http://www.thymeleaf.org"
+                      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:replace="includes/header-public :: head-public"></head>
+<style>
+    .error {
+      color: red;
+    }
+</style>
+<body>
+
+<!--==============  head section ============== -->
+
+<header class="header">
+    <div class="container">
+        <nav class="navbar navbar-inverse" role="navigation">
+            <div class="navbar-header">
+                <button type="button" id="nav-toggle" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#main-nav"><span class="sr-only">Toggle navigation</span> <span
+                        class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+                </button>
+                <a href="#home" class="navbar-brand scroll-top logo  animated bounceInLeft"><b><i><img
+                        src="images/Pro1.png"/></i></b></a></div>
+            <div id="main-nav" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav aos-item" data-aos="fade-up" id="mainNav">
+                    <li class="active" id="firstLink"><a href="/" class="scroll-link">Home</a></li>
+                    <li><a href="#work" class="scroll-link">Projects</a></li>
+                    <li>
+                        <a href="/register">Registration</a>
+                    </li>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="#contactUs" class="scroll-link">Contact Us</a></li>
+                    <li>
+                        <span sec:authorize="isAuthenticated()">
+                            | Logged user: <span sec:authentication="name"></span> |
+                            Roles: <span sec:authentication="principal.authorities"></span> |
+                            <a th:href="@{/logout}">Sign Out</a>
+                        </span>
+                    </li>
+                    <!--<li class="dropdown"><a href="compare.html" class="scroll-link dropdown-toggle" data-toggle="dropdown">Compare<span class="caret"></span></a>
+                    <ul class="dropdown-menu p-15 p-m-0">
+                    <li><span data-target="_self" onclick="location='#'">Select City</span></li>
+                    <li><span onclick="location='#'">Select Project</span></li>
+                    </ul>
+                    </li> -->
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<!--============== end head section ============== -->
+
+<!--============== slider section ============== -->
+<div id="preloader">
+    <div id="prop">&nbsp;</div>
+</div>
+<div class="ip col-md-4" id="ip">adad</div>
+
+<div id="#top"></div>
+
+<section id="home">
+    <div class="banner-container">
+        <div id="carousel" class="carousel slide carousel-fade" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel" data-slide-to="1"></li>
+                <li data-target="#carousel" data-slide-to="2"></li>
+                <li data-target="#carousel" data-slide-to="3"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="active item"><img src="images/banner-bg.jpg" alt="banner"/></div>
+                <!--<div class="item"><img src="images/boo.jpg" alt="banner" /></div>-->
+                <div class="item"><img src="images/banner-bg2.jpg" alt="banner"/></div>
+                <div class="item"><img src="images/banner-bg3.jpg" alt="banner"/></div>
+            </div>
+            <a class="carousel-control left" href="#carousel" data-slide="prev">&lsaquo;</a>
+            <a class="carousel-control right" href="#carousel" data-slide="next">&rsaquo;</a>
+        </div>
+    </div>
+</section>
+
+<!--============== end slider section ============== -->
+<div class="clearfix"></div>
+
+<!--============== search section ============== -->
+
+<div class="center-block dis-font">
+    <div class="col-lg-12 col-md-12 col-xs-12" id="bg">
+        <section id="b-2" class="container navbar-left aos-item" data-aos="fade-up">
+            <legend class="bg-white text-center title-font leg-buy">
+                Buy Property
+            </legend>
+            <legend class="bg-white text-center title-font leg-rent">
+                Rent Property
+            </legend>
+            <ul class="nav nav-pills" id="nav-pills">
+                <li class="li-buy"><a href="/?rentSale=Sale">Buy</a></li>
+                <li class="li-rent"><a href="/?rentSale=Rent">Rent</a></li>
+            </ul>
+            <section class="col-md-12 col-xs-12">
+                <form th:action="@{/properties}" id="searchForm">
+                    <input type="hidden" name="rentOrSale" id="rentOrSale"/>
+                    <input type="hidden" name="minPrice" id="minPrice"/>
+                    <input type="hidden" name="maxPrice" id="maxPrice"/>
+                    <div class="col-sm-6 col-xs-12 col-md-12">
+                        <label>City</label>
+                        <select class="form-control" name="location" id="location">
+                            <option value="" selected="selected"> -- City --</option>
+                            <!--<option th:each="loc : ${meta.locations}" th:value="${loc}"
+                                    th:text="${loc}">
+                            </option>-->
+                            <option th:value="Hyderabad">Hyderabad</option>
+                            <option th:value="Vijayawada">Vijayawada</option>
+                            <option th:value="Chennai">Chennai</option>
+                            <option th:value="Bangalore">Bangalore</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6 col-xs-12 col-md-12">
+                        <div class="form-group">
+                            <label for="">Property Type</label>
+                            <select class="form-control" name="propType" id="propType" th:if="${meta} != null">
+                                <option value="" selected="selected"> -- Property Type --</option>
+                                <option th:each="ptype : ${meta.propTypes}" th:value="${ptype}"
+                                        th:text="${ptype}">
+                                </option>
+                            </select>
+                            <select class="form-control" name="propType" th:unless="${meta} != null">
+                                <option value="" selected="selected"> -- Property Type --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-12 col-md-12">
+                        <div class="form-group">
+                            <label for="">Property Status</label>
+                            <select class="form-control" name="propStatus" id="propStatus" th:if="${meta} != null">
+                                <option value="" selected="selected"> -- Property Status --</option>
+                                <option th:each="pstatus : ${meta.propStatuses}" th:value="${pstatus}"
+                                        th:text="${pstatus}">
+                                </option>
+                            </select>
+                            <select class="form-control" name="propStatus" th:unless="${meta} != null">
+                                <option value="" selected="selected"> -- Property Status --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-sm-6 col-xs-12 col-md-12">
+                        <label for="">Price Range</label>
+                        <!--div id="slider" class="price-slider"></div-->
+                        <input type="text" id="amount" readonly
+                               style="border: 0;color: #fff;margin-bottom: 10px;text-align: center;font-weight: 600;background: none;">
+                        <!--div id="slider-range"></div-->
+                        <div id="slider" style="border: 1px solid #e5e5e5;"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <br/>
+                    <div class="col-sm-6 col-xs-12 col-md-12">
+                        <div class="center-block" style="width: 50%">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-block">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <br/>
+                </form>
+            </section>
+        </section>
+    </div>
+</div>
+
+<!--==============end  search section ============== -->
+
+<div class="clearfix"></div>
+
+<!--============== end project section ============== -->
+
+<!--==============  project section ============== -->
+<section id="work" class="page-section page ">
+    <div class="container text-center ">
+        <div class="heading">
+            <h2 class="aos-item title-font" data-aos="zoom-out-up">PROJECTS</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="portfolio" class="aos-item" data-aos="zoom-out-up">
+                    <ul class="filters list-inline">
+                        <li class="active"><a data-filter="*" href="#">All</a></li>
+                        <li><a data-filter=".photography" href="#">New Projects</a></li>
+                        <li><a data-filter=".branding" href="#">Villas</a></li>
+                        <li><a data-filter=".web" href="#">Plots</a></li>
+                    </ul>
+                    <ul class="items list-unstyled clearfix animated fadeInRight showing" data-animation="fadeInRight"
+                        style="position: relative; height: 438px;">
+                        <li class="item branding" style="position: absolute; left: 0px; top: 0px;">
+                            <figure class="effect-bubba">
+                                <img src="images/work/1.jpg" alt="img02"/>
+                                <figcaption>
+                                    <h2>Trends</h2>
+                                    <a href="#" class="fancybox">View more</a>
+                                </figcaption>
+                            </figure>
+                        </li>
+                        <li class="item photography" style="position: absolute; left: 292px; top: 0px;">
+                            <figure class="effect-bubba">
+                                <img src="images/work/2.jpg" alt="img02"/>
+                                <figcaption>
+                                    <h2>Trends</h2>
+                                    <a href="#" class="fancybox">View more</a>
+                                </figcaption>
+                            </figure>
+                        </li>
+                        <li class="item branding" style="position: absolute; left: 585px; top: 0px;">
+                            <figure class="effect-bubba">
+                                <img src="images/work/3.jpg" alt="img02"/>
+                                <figcaption>
+                                    <h2>Trends</h2>
+                                    <a href="#" class="fancybox">View more</a>
+                                </figcaption>
+                            </figure>
+                        </li>
+                        <li class="item photography" style="position: absolute; left: 877px; top: 0px;">
+                            <figure class="effect-bubba">
+                                <img src="images/work/4.jpg" alt="img02"/>
+                                <figcaption>
+                                    <h2>Trends</h2>
+                                    <a href="#" class="fancybox">View more</a>
+                                </figcaption>
+                            </figure>
+                        </li>
+                        <li class="item photography" style="position: absolute; left: 0px; top: 219px;">
+                            <figure class="effect-bubba">
+                                <img src="images/work/5.jpg" alt="img02"/>
+                                <figcaption>
+                                    <h2>Trends</h2>
+                                    <a href="#" class="fancybox">View more</a>
+                                </figcaption>
+                            </figure>
+                        </li>
+                        <li class="item web" style="position: absolute; left: 292px; top: 219px;">
+                            <figure class="effect-bubba">
+                                <img src="images/work/6.jpg" alt="img02"/>
+                                <figcaption>
+                                    <h2>Trends</h2>
+                                    <a href="#" class="fancybox">View more</a>
+                                </figcaption>
+                            </figure>
+                        </li>
+                        <li class="item photography" style="position: absolute; left: 585px; top: 219px;">
+                            <figure class="effect-bubba">
+                                <img src="images/work/7.jpg" alt="img02"/>
+                                <figcaption>
+                                    <h2>Trends</h2>
+                                    <a href="#" class="fancybox">View more</a>
+                                </figcaption>
+                            </figure>
+                        </li>
+                        <li class="item web" style="position: absolute; left: 877px; top: 219px;">
+                            <figure class="effect-bubba">
+                                <img src="images/work/8.jpg" alt="img02"/>
+                                <figcaption>
+                                    <h2>Trends</h2>
+                                    <a href="#" class="fancybox">View more</a>
+                                </figcaption>
+                            </figure>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--============== end project section ============== -->
+<div class="clearfix"></div>
+
+<!--============== conyact section ============== -->
+
+<section id="contactUs" class="contact-parlex">
+    <div class="parlex-back">
+        <div class="container">
+            <div class="row">
+                <div class="heading text-center">
+                    <h2 class="aos-item title-font" data-aos="zoom-out-down">Contact Us</h2>
+                    <p class="aos-item" data-aos="zoom-out-up">There are many variations of passages of Lorem Ipsum
+                        available, but the majority have suffered.</p>
+                </div>
+            </div>
+            <div class="row mrgn30 aos-item" id="one1" data-aos="flip-left">
+                <form1 method="post" action="" id="contactfrm" role="form" class="form1">
+                    <div class="col-sm-12">
+                        <div class="col-sm-7">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter name"
+                                       title="Please enter your name (at least 2 characters)">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" name="email" id="email"
+                                       placeholder="Enter email" title="Please enter a valid email address">
+                            </div>
+                            <div class="form-group">
+                                <label for="comments">Comments</label>
+                                <textarea name="comment" class="form-control" id="comments" cols="3" rows="5"
+                                          placeholder="Enter your message…"
+                                          title="Please enter your message (at least 10 characters)"></textarea>
+                                <br>
+                                <button name="submit" type="submit" class="btn btn-lg btn-primary" id="submit">Submit
+                                </button>
+                            </div>
+                            <div class="result"></div>
+                        </div>
+                        <div class="col-sm-5">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m23!1m12!1m3!1d3805.3290666919165!2d78.3914594649663!3d17.491798238016088!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m8!3e6!4m0!4m5!1s0x3bcb918d306665ad%3A0x26d40a8ce511aaed!2sManjeera+Majestic+Commercial%2C+JNTU+Rd%2C+Kukatpally+Housing+Board+Colony%2C+Kukatpally%2C+Hyderabad%2C+Telangana+500072!3m2!1d17.4916519!2d78.3935546!5e0!3m2!1sen!2sin!4v1521007588246"
+                                    width="600" height="340" frameborder="0" style="border:0; min-height:340px !important; border-radius: 6px;
+				border: 2px solid #f5f5f5;" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </form1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div th:replace="includes/footer-public :: footer-public"></div>
+
+<script th:inline="javascript">
+        $( function() {
+            var meta = [[${meta}]];
+            //console.log('meta', meta);
+            applyMeta(meta);
+        });
+    $(document).ready(function () {
+        $('#searchForm').validate({ // initialize the plugin
+          rules: {
+              propType : {
+                required: true
+              },
+              location : {
+                required: true
+              }
+            },
+            submitHandler: function (form) {
+              $("body").addClass("loading");
+              form.submit();
+            }
+        });
+    });
+
+</script>
+<!-- /.page-wrapper -->
+<div class="modal"></div>
+</body>
+</html>

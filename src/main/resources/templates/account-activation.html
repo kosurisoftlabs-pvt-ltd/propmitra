@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="includes/header :: head"></head>
+  <body>
+    <div class="page-wrapper">
+      <div th:replace="includes/navbar :: navbar"></div>
+      <div class="main-wrapper">
+        <div class="main">
+          <div class="main-inner">
+            <div style="height: 80px;"></div>
+            <div class="row">
+              <div class="col-md-4"></div>
+              <div class="col-md-4 col-xs-12">
+                <div th:if="${status == 'success'}" class="alert msg-alert alert-success text-center " style="font-size: 14px;">
+                  <strong>Success!</strong> You have successfully verified your email address. Please
+                  <a th:href="@{'/signin'}" style="color: #ffeb3b; text-decoration: underline;">login</a> to continue.
+                </div>
+                <div th:if="${status == 'failed'}" class="alert msg-alert alert-danger text-center " style="font-size: 14px;">
+                  <strong>Alert!</strong> Email verification is unsuccessful. Invalid / expired / already used activation link.
+                  Please contact our support team to know your account activation status.
+                </div>
+                <div th:if="${status == 'error'}" class="alert msg-alert alert-danger text-center " style="font-size: 14px;">
+                  <strong>Error!</strong> Unable to verify your email address. Verification error.
+                  Please contact our support team to know your account activation status.
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.main-inner -->
+        </div>
+        <!-- /.main -->
+      </div>
+      <!-- /.main-wrapper -->
+      <div style="" th:replace="includes/footer :: footer"></div>
+    </div>
+    <!-- /.page-wrapper -->
+  </body>
+</html>

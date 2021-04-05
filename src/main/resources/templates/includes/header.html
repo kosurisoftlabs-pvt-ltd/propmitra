@@ -1,0 +1,88 @@
+<head th:fragment="head">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta content="ie=edge" http-equiv="x-ua-compatible" />
+    <title th:text="${title} ? ${title} + ' | Propmitra' : 'Propmitra'"></title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link href="/libraries/slick/slick.css" rel="stylesheet" type="text/css">
+    <link href="/libraries/slick/slick-theme.css" rel="stylesheet" type="text/css">
+    <link href="/css/trackpad-scroll-emulator.css" rel="stylesheet" type="text/css">
+    <link href="/css/chartist.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/jquery.raty.css" rel="stylesheet" type="text/css">
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/nouislider.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/explorer.css" rel="stylesheet" type="text/css">
+    <link href="/css/bootstrap-tagsinput.css" rel="stylesheet" type="text/css">
+    <!--link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png"-->
+    <style>
+        .page-title h1 {
+            color: #00ad79;
+            font-size: 16px;
+            font-weight: 400;
+            float: left;
+            line-height: 40px;
+            margin: 0;
+            padding: 0;
+        }
+        .ui-widget.ui-widget-content {
+            border: 1px solid #e5e5e5;
+            border-top: none;
+        }
+        .ui-menu .ui-menu-item {
+            padding: 5px 8px;
+        }
+
+        #slider label {
+            position: absolute;
+            width: 20px;
+            margin-left: -10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .ui-widget-header {
+            background: #00ad79;
+        }
+
+        .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default,
+        .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active {
+            border: 1px solid #5cb85c;
+        }
+
+        .bootstrap-tagsinput {
+            border: none;
+            box-shadow: none;
+        }
+        .tag {
+            background-color: #00ad79;
+        }
+
+        .modal {
+            display:    none;
+            position:   fixed;
+            z-index:    1000;
+            top:        0;
+            left:       0;
+            height:     100%;
+            width:      100%;
+            background: rgba( 255, 255, 255, .8 )
+                        url('/img/ajax-loader.gif')
+                        50% 50%
+                        no-repeat;
+        }
+
+        body.loading .modal {
+            overflow: hidden;
+            display: block;
+        }
+
+        body.loading .modal {
+
+        }
+
+        .error {
+          color: red;
+        }
+    </style>
+</head>

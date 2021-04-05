@@ -1,0 +1,147 @@
+<div *ngIf="isViewRequest else submitForm;">
+  <div class="row">
+    <div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="Number of Floors" [disabled]=true [value]="floorModel.noFloors">
+      </mat-form-field>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="Number of Bedrooms" [disabled]=true [value]="floorModel.noBeds">
+      </mat-form-field>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="Floor No." [disabled]=true [value]="floorModel.floorNo">
+      </mat-form-field>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="Area in Sqft" [disabled]=true [value]="floorModel.areaSft">
+      </mat-form-field>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="Price for Sqft" [disabled]=true [value]="floorModel.priceSft">
+      </mat-form-field>
+    </div>
+    <div class="col-md-8 col-xs-12">
+      <h4>Image Gallery</h4>
+      <ngx-gallery *ngIf="floorModel.attachments != null && floorModel.attachments.length > 0 else zeroGallery"
+        [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+      <ng-template #zeroGallery>
+        <p>No images found. Upload now!</p>
+      </ng-template>
+    </div>
+    <div class="col-md-12 col-xs-12">
+        <div class="row">
+          <div class="col-sm-6">
+            <button type="button" mat-button matStepperPrevious class="btn btn-danger btn-sm">&lt;&lt; Previous</button>
+          </div>
+          <div class="col-sm-6">
+            <button type="button" [disabled]="!isFloorCompleted" mat-button matStepperNext
+              class="btn btn-primary btn-sm float-right">
+              Next &gt;&gt;</button>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+<ng-template #submitForm>
+  <form [formGroup]="floorForm" enctype="multipart/form-data" (ngSubmit)="submitFloorData()">
+    <div class="row">
+      <!--div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="Property Id" [disabled]=true [value]="floorModel.propId">
+      </mat-form-field>
+    </div-->
+      <div class="col-md-6 col-xs-12">
+        <mat-form-field>
+          <input matInput placeholder="Number of Floors" [(ngModel)]="floorModel.noFloors" formControlName="noFloors">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <mat-form-field>
+          <mat-label>Number of Bedrooms</mat-label>
+          <mat-select [(ngModel)]="floorModel.noBeds" [formControl]="noBeds">
+            <mat-option>Select</mat-option>
+            <mat-option value="1 BHK">BHK01</mat-option>
+            <mat-option value="2 BHK">BHK02</mat-option>
+            <mat-option value="3 BHK">BHK03</mat-option>
+            <mat-option value="4 BHK">BHK04</mat-option>
+            <mat-option value="5 BHK">BHK05</mat-option>
+            <mat-option value="6 BHK">BHK06</mat-option>
+          </mat-select>
+          <mat-error *ngIf="noBeds.hasError('required')">Please choose an option</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <mat-form-field>
+          <input matInput placeholder="Floor No." [(ngModel)]="floorModel.floorNo" formControlName="floorNo" required>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <mat-form-field>
+          <input matInput placeholder="Area in Sqft" [(ngModel)]="floorModel.areaSft" formControlName="areaSft">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <mat-form-field>
+          <input matInput placeholder="Price for Sqft" [(ngModel)]="floorModel.priceSft" formControlName="priceSft">
+        </mat-form-field>
+      </div>
+      <div class="col-md-8 col-xs-12">
+        <h4>Image Gallery</h4>
+        <ngx-gallery *ngIf="floorModel.attachments != null && floorModel.attachments.length > 0 else zeroGallery"
+          [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+        <ng-template #zeroGallery>
+          <p>No images found. Upload now!</p>
+        </ng-template>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="col-md-12 col-xs-12">
+          <input formControlName="document" type="file" ng2FileSelect accept="image/*" [uploader]="uploader"
+            multiple /><br />
+        </div>
+        <div class="col-md-12 col-xs-12">
+          <table class="table">
+            <thead>
+              <tr>
+                <th width="10%"></th>
+                <th width="90%"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of uploader.queue">
+                <th class="text-center" width="10%">
+                  <mat-icon (click)="item.remove()">delete</mat-icon>
+                </th>
+                <th width="90%">
+                  {{ item.file.name}}<br />
+                  <p>({{item.file.size/1000000}} MB)</p>
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-md-12 col-xs-12">
+        <div class="row">
+          <div class="col-sm-3">
+            <button type="button" mat-button matStepperPrevious class="btn btn-danger btn-sm">&lt;&lt; Previous</button>
+          </div>
+          <div class="col-sm-2"></div>
+          <div class="col-sm-4">
+            <button class="btn btn-sm btn-info" type="submit" mat-button>Submit</button>
+            <a class="btn btn-sm btn-default" href="/property-list" mat-button>Cancel</a>
+          </div>
+          <div class="col-sm-3">
+            <button type="button" [disabled]="!isFloorCompleted" mat-button matStepperNext
+              class="btn btn-primary btn-sm float-right">
+              Next &gt;&gt;</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

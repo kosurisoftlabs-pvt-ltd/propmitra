@@ -1,0 +1,359 @@
+<div *ngIf="isViewRequest else submitForm;">
+  <div class="row">
+    <div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="Posted By" [disabled]=true [value]="basic.postedBy">
+      </mat-form-field>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="Rent or Sale" [disabled]=true [value]="basic.rentSale">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row" *ngIf="basic.rentSale == 'Rent'">
+    <div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="Lease Term" [disabled]=true [value]="basic.leaseTerm">
+      </mat-form-field>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="Advance Amount" [disabled]=true [value]="basic.advanceAmount">
+      </mat-form-field>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="Rent Amount" [disabled]=true [value]="basic.rentAmount">
+      </mat-form-field>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="Is Furnished or Semi-Furnished" [disabled]=true [value]="basic.furnishedOrSemi">
+      </mat-form-field>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="No. Of Bathrooms" [disabled]=true [value]="basic.noBathRooms">
+      </mat-form-field>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="Near By Land Mark" [disabled]=true [value]="basic.landMark">
+      </mat-form-field>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="Near By Places" [disabled]=true [value]="basic.placesNear">
+      </mat-form-field>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="Floor Sqft" [disabled]=true [value]="basic.floorSft">
+      </mat-form-field>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="Floor To Be Rented" [disabled]=true [value]="basic.floorNo">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row" *ngIf="basic.rentSale =='Sale'">
+    <div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="Property Age" [disabled]=true [value]="basic.propAge">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="Property Type" [disabled]=true [value]="basic.propType">
+      </mat-form-field>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="Property Status" [disabled]=true [value]="basic.propStatus">
+      </mat-form-field>
+    </div>
+    <div class="col-md-6 col-xs-12" *ngIf="propStatus.value =='Under Construction'">
+      <mat-form-field>
+        <input matInput placeholder="Completion Month / Year(s)" [disabled]=true [value]="basic.completion">
+      </mat-form-field>
+    </div>
+    <div class="col-md-6 col-xs-12" *ngIf="propStatus.value =='Under Construction'">
+      <mat-form-field>
+        <input matInput placeholder="Completion Time in" [disabled]=true [value]="basic.completionType">
+      </mat-form-field>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="Project Name" [disabled]=true [value]="basic.projectName">
+      </mat-form-field>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="Property Location" [disabled]=true [value]="basic.propLocation">
+      </mat-form-field>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <mat-form-field>
+        <input matInput placeholder="Location Pincode" [disabled]=true [value]="basic.pinCode">
+      </mat-form-field>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <label for="Is it gated community">Is it gated community</label><br />
+      <mat-radio-group aria-label="Is it gated cumunity">
+        <mat-radio-button value="Y" [checked]="basic.isGated == 'Y'">Yes</mat-radio-button>&nbsp;&nbsp;&nbsp;
+        <mat-radio-button value="N" [checked]="basic.isGated == 'N'">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="col-md-12 col-xs-12">
+      <mat-form-field>
+        <textarea matInput placeholder="Write about your property..." [disabled]=true
+          [value]="basic.description"></textarea>
+      </mat-form-field>
+    </div>
+    <div class="col-md-8 col-xs-12">
+      <h4>Image Gallery</h4>
+      <ngx-gallery *ngIf="frontImage.length > 0 else noFrontImg" [options]="galleryOptions" [images]="frontImage">
+      </ngx-gallery>
+      <ng-template #noFrontImg>
+        <p class="text-danger">
+          Front image not yet uploaded. Upload now!<br />
+          Note: Front image is face of your property, it is used as part of your property listing like - search,
+          property info etc.,
+        </p>
+      </ng-template>
+    </div>
+    <div class="col-md-12 col-xs-12">
+      <div class="row">
+        <div class="col-sm-6"></div>
+        <div class="col-sm-6">
+          <button type="button" [disabled]="!isBasicCompleted" mat-button matStepperNext
+            class="btn btn-primary btn-sm float-right">
+            Next &gt;&gt;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #submitForm>
+  <form [formGroup]="basicForm" enctype="multipart/form-data" (ngSubmit)="submitBasic()">
+    <div class="row">
+      <div class="col-md-6 col-xs-12">
+        <mat-form-field>
+          <mat-label>Posted By</mat-label>
+          <mat-select [formControl]="postedBy" [(ngModel)]="basic.postedBy">
+            <mat-option>Select</mat-option>
+            <mat-option value="Agent">Agent</mat-option>
+            <mat-option value="Property Owner">Property Owner</mat-option>
+            <mat-option value="Developer">Developer</mat-option>
+          </mat-select>
+          <mat-error *ngIf="postedBy.hasError('required')">Please choose an option</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <mat-form-field>
+          <mat-label>Rent or Sale</mat-label>
+          <mat-select [formControl]="rentSale" [(ngModel)]="basic.rentSale">
+            <mat-option>Select</mat-option>
+            <mat-option value="Sale">Sale</mat-option>
+            <mat-option value="Rent">Rent</mat-option>
+          </mat-select>
+          <mat-error *ngIf="rentSale.hasError('required')">Please choose an option</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row" *ngIf="basic.rentSale == 'Rent'">
+      <div class="col-md-6 col-xs-12">
+        <mat-form-field>
+          <input matInput placeholder="Lease Term" formControlName="leaseTerm" [(ngModel)]="basic.leaseTerm">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <mat-form-field>
+          <input matInput placeholder="Advance Amount" formControlName="advanceAmount"
+            [(ngModel)]="basic.advanceAmount">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <mat-form-field>
+          <input matInput placeholder="Rent Amount" formControlName="rentAmount" [(ngModel)]="basic.rentAmount">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <mat-form-field>
+          <input matInput placeholder="Is Furnished or Semi-Furnished" formControlName="furnishedOrSemi"
+            [(ngModel)]="basic.furnishedOrSemi">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <mat-form-field>
+          <input matInput placeholder="No. Of Bathrooms" formControlName="noBathRooms" [(ngModel)]="basic.noBathRooms">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <mat-form-field>
+          <input matInput placeholder="Near By Land Mark" formControlName="landMark" [(ngModel)]="basic.landMark">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <mat-form-field>
+          <input matInput placeholder="Near By Places" formControlName="placesNear" [(ngModel)]="basic.placesNear">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <mat-form-field>
+          <input matInput placeholder="Floor Sqft" formControlName="floorSft" [(ngModel)]="basic.floorSft">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <mat-form-field>
+          <input matInput placeholder="Floor To Be Rented" formControlName="floorNo" [(ngModel)]="basic.floorNo">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row" *ngIf="basic.rentSale =='Sale'">
+      <div class="col-md-6 col-xs-12">
+        <mat-form-field>
+          <mat-label>Property Age</mat-label>
+          <mat-select [formControl]="propAge" [(ngModel)]="basic.propAge">
+            <mat-option>Select</mat-option>
+            <mat-option value="New">New</mat-option>
+            <mat-option value="Old">Old</mat-option>
+          </mat-select>
+          <mat-error *ngIf="propAge.hasError('required')">Please choose an option</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-xs-12">
+        <mat-form-field>
+          <mat-label>Property Type</mat-label>
+          <mat-select [formControl]="propType" [(ngModel)]="basic.propType">
+            <mat-option>Select</mat-option>
+            <mat-option value="Commercial">Commercial</mat-option>
+            <mat-option value="Residential">Residential</mat-option>
+            <mat-option value="Agricultural Land">Agricultural Land</mat-option>
+          </mat-select>
+          <mat-error *ngIf="propType.hasError('required')">Please choose an option</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <mat-form-field>
+          <mat-label>Property Status</mat-label>
+          <mat-select [formControl]="propStatus" [(ngModel)]="basic.propStatus">
+            <mat-option>Select</mat-option>
+            <mat-option value="Resale">Resale</mat-option>
+            <mat-option value="Upcoming">Upcoming</mat-option>
+            <mat-option value="Under Construction">Under Construction</mat-option>
+          </mat-select>
+          <mat-error *ngIf="propStatus.hasError('required')">Please choose an option</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-xs-12" *ngIf="propStatus.value =='Under Construction'">
+        <mat-form-field>
+          <input matInput placeholder="Completion Month / Year(s)" formControlName="completion"
+            [(ngModel)]="basic.completion">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-xs-12" *ngIf="propStatus.value =='Under Construction'">
+        <mat-form-field>
+          <mat-label>Completion Time in</mat-label>
+          <mat-select [formControl]="completionType" [(ngModel)]="basic.completionType">
+            <mat-option>Select</mat-option>
+            <mat-option value="Month(s)">Month(s)</mat-option>
+            <mat-option value="Year(s)">Year(s)</mat-option>
+            <mat-option value="Month &amp; Year">Month &amp; Year</mat-option>
+          </mat-select>
+          <mat-error *ngIf="completionType.hasError('required')">Please choose an option</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <mat-form-field>
+          <input matInput placeholder="Project Name" formControlName="projectName" [(ngModel)]="basic.projectName">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <mat-form-field>
+          <input matInput placeholder="Property Location" formControlName="propLocation" autocorrect="off" autocapitalize="off" spellcheck="off"
+            [(ngModel)]="basic.propLocation" #search>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <mat-form-field>
+          <input matInput placeholder="Location Pincode" formControlName="pinCode" [(ngModel)]="basic.pinCode">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <label for="Is it gated community">Is it gated community</label><br />
+        <mat-radio-group aria-label="Is it gated cumunity" formControlName="isGated" [(ngModel)]="basic.isGated"
+          #radioGroup="matRadioGroup">
+          <mat-radio-button value="Y">Yes</mat-radio-button>&nbsp;&nbsp;&nbsp;
+          <mat-radio-button value="N">No</mat-radio-button>
+        </mat-radio-group>
+        <!--div>radio group value: {{ basic.isGated }}</div-->
+      </div>
+      <div class="col-md-12 col-xs-12">
+        <mat-form-field>
+          <textarea matInput placeholder="Write about your property..." [(ngModel)]="basic.description"
+            formControlName="description" required></textarea>
+        </mat-form-field>
+      </div>
+      <div class="col-md-8 col-xs-12">
+        <h4>Image Gallery</h4>
+        <ngx-gallery *ngIf="frontImage.length > 0 else noFrontImg" [options]="galleryOptions" [images]="frontImage">
+        </ngx-gallery>
+        <ng-template #noFrontImg>
+          <p class="text-danger">
+            Front image not yet uploaded. Upload now!<br />
+            Note: Front image is face of your property, it is used as part of your property listing like - search,
+            property info etc.,
+          </p>
+        </ng-template>
+      </div>
+      <div class="col-md-4 col-xs-12">
+        <div class="col-md-12 col-xs-12">
+          <input formControlName="document" type="file" ng2FileSelect accept="image/*" [uploader]="uploader" /><br />
+        </div>
+        <div class="col-md-12 col-xs-12">
+          <table class="table">
+            <thead>
+              <tr>
+                <th width="10%"></th>
+                <th width="90%"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of uploader.queue">
+                <th class="text-center" width="10%">
+                  <mat-icon (click)="item.remove()">delete</mat-icon>
+                </th>
+                <th width="90%">
+                  {{ item.file.name}}<br />
+                  <p>({{item.file.size/1000000}} MB)</p>
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-md-12 col-xs-12">
+        <div class="row">
+          <div class="col-sm-3"></div>
+          <div class="col-sm-2"></div>
+          <div class="col-sm-4">
+            <button class="btn btn-sm btn-info" type="submit" mat-button>Submit</button>
+            <a class="btn btn-sm btn-default" href="/property-list" mat-button>Cancel</a>
+          </div>
+          <div class="col-sm-3">
+            <button type="button" [disabled]="!isBasicCompleted" mat-button matStepperNext
+              class="btn btn-primary btn-sm float-right">
+              Next &gt;&gt;</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

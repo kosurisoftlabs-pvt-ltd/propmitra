@@ -1,0 +1,31 @@
+<div class="logo">
+    <a href="/dashboard">
+        <img src="/assets/img/pm.png" width="75%" />
+    </a>
+</div>
+<div class="sidebar-wrapper">
+    <ul class="nav">
+        <li routerLinkActive="active" *ngFor="let menuItem of menuItems; let i = index" class="{{menuItem.class}} nav-item">
+            <a class="nav-link" [routerLink]="[menuItem.path]" *ngIf="menuItem.children.length == 0 else navsubmenu">
+                <i class="material-icons" style="color: #707173;">{{menuItem.icon}}</i>
+                <p>{{menuItem.title}}</p>
+            </a>
+            <ng-template #navsubmenu>
+                <a class="nav-link collapsed" href="#submenu{{i}}" data-toggle="collapse" data-target="#submenu{{i}}">
+                    <i class="material-icons" style="color: #707173;">{{menuItem.icon}}</i>
+                    <p>{{menuItem.title}}</p>
+                </a>
+                <div class="collapse" id="submenu{{i}}" aria-expanded="false">
+                    <ul class="flex-column pl-2 nav" style="margin-top: 2px;">
+                        <li routerLinkActive="active" class="{{submenuItem.class}} nav-item" *ngFor="let submenuItem of menuItem.children">
+                            <a class="nav-link nav-sub-a" [routerLink]="[submenuItem.path]" style="margin: 0 25px;padding: 5px;">
+                                <i class="material-icons" style="font-size: 18px;margin-top: 4px;color: #707173;">{{submenuItem.icon}}</i>
+                                <p style="font-size: 12px;">{{submenuItem.title}}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </ng-template>
+        </li>
+    </ul>
+</div>

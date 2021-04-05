@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="includes/header :: head"></head>
+  <body>
+    <div class="page-wrapper">
+      <div th:replace="includes/navbar :: navbar"></div>
+      <div class="main-wrapper">
+        <div class="main">
+          <div class="main-inner">
+            <div class="container">
+              <div class="warning">
+                <h1>500</h1>
+                <p>
+                  Oops.. something went wrong<br />
+                  <small>Internal server error occurred. Please check site later.</small>
+                </p>
+
+                <a href="/" class="btn btn-primary"><i class="fa fa-long-arrow-left"></i> Return Home</a>
+              </div>
+              <!-- /.warning -->
+            </div>
+            <!-- /.container-fluid -->
+          </div>
+          <!-- /.main-inner -->
+        </div>
+        <!-- /.main -->
+      </div>
+      <!-- /.main-wrapper -->
+      <div style="" th:replace="includes/footer :: footer"></div>
+    </div>
+    <!-- /.page-wrapper -->
+  </body>
+</html>
